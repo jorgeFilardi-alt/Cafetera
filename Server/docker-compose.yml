@@ -21,7 +21,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 'root'
       MYSQL_DATABASE: 'gestion_comercial' # Crea esta base de datos al iniciar
-      MYSQL_USER: 'root' # Crea un usuario específico para tu aplicación
+      MYSQL_USER: 'user' # Crea un usuario específico para tu aplicación
       MYSQL_PASSWORD: 'root'
 
     # Mapeo de puertos. Expone el puerto 3306 del contenedor al puerto 3306 de tu máquina (Ubuntu)
