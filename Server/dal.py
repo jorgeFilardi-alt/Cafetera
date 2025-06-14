@@ -1,20 +1,19 @@
 """
 Data access layer for a MySQL database
 """ 
-import mysql.connector #pip install mysql-connector-python
+import db_cursor from utils
 
-def facturas(documento):
-    conexion = mysql.connector.connect(user='root',password='root',host='127.0.0.1',database='gestion_comercial',auth_plugin='mysql_native_password')
-    cursor = conexion.cursor()
+# tabla completa clientes de la empresa
+def get_clientes(documento):
+    results = []
+    def query(cursor):
+        query = "SELECT * FROM facturacion.get_clientes WHERE documentocliente = %s"
+        cursor.execute(query, (documento,))
+        for (id, cliente, fecha, importe) in cursor:
+            results.append({"id": id, "cliente": cliente, "fecha": fecha, "importe": importe})
 
-    query = "select * from facturacion.facturas where documentocliente = '{}'".format(documento)
-    print(query)
-    cursor.execute(query)
-    for (id,cliente,fecha,importe) in cursor:
-        print("Cliente: {} - Fecha: {} - Importe: {}".format(cliente,fecha,importe))
-
-    cursor.close()
-    conexion.close()
+    db_cursor(query)
+    return results
 
 if __name__ == "__main__":
-    facturas("123456")
+    print(get_clientes("123456"))
