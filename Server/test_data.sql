@@ -15,7 +15,7 @@ INSERT INTO login (correo, contraseña, es_administrador) VALUES
 ('ana.m@gc.com', 'anamartinezpass', FALSE);
 
 -- 2. Tabla: proveedores
-INSERT INTO proveedores (id_proveedor, nombre, teléfono) VALUES
+INSERT INTO proveedores (id_proveedor, nombre, telefono) VALUES
 (101, 'Café Tostado S.A.', 29001234),
 (102, 'Lácteos del Sur', 26005678),
 (103, 'DulceRico Azúcar', 23059012),
@@ -23,7 +23,7 @@ INSERT INTO proveedores (id_proveedor, nombre, teléfono) VALUES
 (105, 'Agua Pura SRL', 22007890);
 
 -- 3. Tabla: insumos
-INSERT INTO insumos (id_insumo, descripción, tipo, precio_unitario, id_proveedor) VALUES
+INSERT INTO insumos (id_insumo, descripcion, tipo, precio_unitario, id_proveedor) VALUES
 (1, 'Granos de Café Arábica 1kg', 'Café', 850, 101),
 (2, 'Granos de Café Robusta 1kg', 'Café', 720, 101),
 (3, 'Leche Entera Larga Vida 1L', 'Lácteo', 55, 102),
@@ -36,23 +36,23 @@ INSERT INTO insumos (id_insumo, descripción, tipo, precio_unitario, id_proveedo
 (10, 'Filtros de Papel N°4 (x100)', 'Filtro', 300, 104);
 
 -- 4. Tabla: clientes
-INSERT INTO clientes (id_cliente, nombre, dirección, teléfono, correo) VALUES
+INSERT INTO clientes (id_cliente, nombre, dirección, telefono, correo) VALUES
 (201, 'Oficina Central', 'Av. 18 de Julio 1234', 29011111, 'contacto@oficentral.com'),
 (202, 'Coworking Innova', 'Dr. Luis Alberto de Herrera 3365', 26222222, 'info@innova.uy'),
 (203, 'Estudio Contable Díaz', 'Rincón 454', 29163333, 'admin@diazcontadores.com'),
 (204, 'Clínica Bienestar', 'Bv. Artigas 1122', 27084444, 'recepcion@clinicabienestar.com'),
 (205, 'Universidad del Saber', 'Av. Italia 2345', 24875555, 'compras@uds.edu.uy');
 
--- 5. Tabla: técnicos
-INSERT INTO técnicos (ci, nombre, apellido, teléfono) VALUES
+-- 5. Tabla: tecnicos
+INSERT INTO tecnicos (ci, nombre, apellido, telefono) VALUES
 (45556667, 'Roberto', 'Morales', 99123456),
 (51112223, 'Laura', 'Giménez', 98765432),
 (39998887, 'Diego', 'Fernández', 91234876),
 (48765432, 'Valentina', 'Sosa', 99888777);
 
--- 6. Tabla: máquinas
+-- 6. Tabla: maquinas
 -- Se asume que la dirección de la máquina es la misma que la del cliente, pero podría ser diferente.
-INSERT INTO máquinas (id_máquina, modelo, id_cliente, dirección_cliente, costo_alquiler_mensual) VALUES
+INSERT INTO maquinas (id_maquina, modelo, id_cliente, dirección_cliente, costo_alquiler_mensual) VALUES
 (301, 'Expressa Pro 2000', 201, 'Av. 18 de Julio 1234', 5000),
 (302, 'LatteMaster 500', 201, 'Av. 18 de Julio 1234', 6500),
 (303, 'FilterCoffee Max', 202, 'Dr. Luis Alberto de Herrera 3365', 4500),
@@ -62,7 +62,7 @@ INSERT INTO máquinas (id_máquina, modelo, id_cliente, dirección_cliente, cost
 (307, 'LatteMaster 500', 205, 'Av. Italia 2345, Sala Profesores', 6800);
 
 -- 7. Tabla: mantenimientos
-INSERT INTO mantenimientos (id_mantenimiento, id_máquina, ci_técnico, tipo, fecha, observarciones) VALUES
+INSERT INTO mantenimientos (id_mantenimiento, id_maquina, ci_tecnico, tipo, fecha, observarciones) VALUES
 (401, 301, 45556667, 'Preventivo', '2025-01-15', 'Limpieza general y descalcificación.'),
 (402, 303, 51112223, 'Correctivo', '2025-02-20', 'Se reemplazó la bomba de agua.'),
 (403, 302, 45556667, 'Instalación', '2025-03-01', 'Instalación y configuración inicial.'),
@@ -73,8 +73,8 @@ INSERT INTO mantenimientos (id_mantenimiento, id_máquina, ci_técnico, tipo, fe
 (408, 301, 39998887, 'Preventivo', '2025-06-12', 'Chequeo de presión y temperatura.');
 
 -- 8. Tabla: registro_consumo
--- Se generan múltiples registros de consumo para distintas máquinas e insumos a lo largo del tiempo.
-INSERT INTO registro_consumo (id_consumo, id_máquina, id_insumo, fecha, cantidad_usada) VALUES
+-- Se generan múltiples registros de consumo para distintas maquinas e insumos a lo largo del tiempo.
+INSERT INTO registro_consumo (id_consumo, id_maquina, id_insumo, fecha, cantidad_usada) VALUES
 -- Consumos Máquina 301
 (501, 301, 1, '2025-05-02', 2), -- 2 kg de Café Arábica
 (502, 301, 3, '2025-05-02', 5), -- 5 L de Leche Entera
