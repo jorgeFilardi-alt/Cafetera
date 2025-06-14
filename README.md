@@ -21,5 +21,13 @@
 - Run api with ´uvicorn main:app --reload´
 - Go to ´http://127.0.0.1:8000/docs#/´ to see swagger and specification of the endpoinds.
 
+### MySQL
+
+Compartir servidor, podriamos usar docker (la entrega no especifica). Por simplicidad, correra todo localmente (requiriendo una instancia de mysql con las mismas caracteristicas). Requisitos:
+
+- MySQL Instalado
+- Base de datos `facturacion`
+- Usuario de mysql `root`, pwd `root`
+- Dependencias del repo (pip, ...)
 
 ## Gerneral Architecture Diagram:
