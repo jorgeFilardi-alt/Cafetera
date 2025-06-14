@@ -1,5 +1,6 @@
-CREATE DATABASE Obligatorio;
-USE Obligatorio;
+-- Schema / Setup / Tablas
+CREATE DATABASE gestion_comercial;
+USE gestion_comercial;
 CREATE TABLE login(
     correo VARCHAR(20) PRIMARY KEY,
     contraseña VARCHAR(100),

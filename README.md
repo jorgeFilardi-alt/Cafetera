@@ -26,7 +26,7 @@
 Compartir servidor, podriamos usar docker (la entrega no especifica). Por simplicidad, correra todo localmente (requiriendo una instancia de mysql con las mismas caracteristicas). Requisitos:
 
 - MySQL Instalado
-- Base de datos `facturacion`
+- Base de datos `gestion_comercial`
 - Usuario de mysql `root`, pwd `root`
 - Dependencias del repo (pip, ...)
 
