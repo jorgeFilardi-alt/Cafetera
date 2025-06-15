@@ -2,6 +2,7 @@
 Datos de prueba para la base de datos: gestion_comercial.
 Generados por: Gemini 2.5 Pro (version preliminar)
 """
+-- TODO: Safe execution
 -- Se utiliza la base de datos creada
 USE gestion_comercial;
 

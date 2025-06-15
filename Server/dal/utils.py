@@ -23,3 +23,20 @@ def db_cursor(crud_op):
         return result
     finally:
         conexion.close()
+
+"""
+Funcion utilitaria, get completo para una tabla (SELECT *)
+Simplifica: endpoints simples, ej. https://localhost:8000/clientes
+"""
+def get_table(table: str):
+    results = []
+    
+    def query(cursor):
+        query = f"SELECT * FROM gestion_comercial.{table}"
+        cursor.execute(query)
+        for row in cursor:
+            results.append(row)
+
+    db_cursor(query)
+    return results
+

@@ -1,7 +1,7 @@
 """
 Data access layer for a MySQL database
 """ 
-from utils import db_cursor
+from dal.utils import db_cursor
 
 def gen_data():
     return "ad"
