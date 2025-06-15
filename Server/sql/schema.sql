@@ -5,9 +5,10 @@ USE gestion_comercial;
 
 CREATE TABLE IF NOT EXISTS login(
     correo VARCHAR(20) PRIMARY KEY,
-    contraseña VARCHAR(100),
+    pwd_hash VARCHAR(60), -- bcrypt hash
+    --salt
     es_administrador BOOLEAN,
-    CHECK (LENGTH(contraseña) > 8)
+    CHECK (LENGTH(pwd_hash) > 8)
 );
 CREATE TABLE IF NOT EXISTS proveedores(
     id_proveedor INT PRIMARY KEY,
