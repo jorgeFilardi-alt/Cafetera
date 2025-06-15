@@ -6,12 +6,17 @@ Obligatorio, equipo, etc
 Extractos de todas las secciones
 ### Front End
 ```bash
-# 
+# Terminal 1 (frontend)
+npm run dev
 ```
 ### Back End
 ```bash
+# Terminal 2 (mysql)
+docker-compose -f /Server/sql/docker-compose.yml up -d
+```
+```bash
+# Terminal 3 (api, endpoint)
 cd Server
-docker-compose up -d
 source venv/bin/activate 
 uvicorn main:app --reload
 ```
@@ -38,7 +43,7 @@ source venv/bin/activate
 # fastapi => uvicorn
 uvicorn main:app --reload
 # Instancia docker de mysql
-docker-compose up -d
+docker-compose up -d # off: ...ose down
 ```
 Go to ´http://127.0.0.1:8000/docs#/´ to see swagger and specification of the endpoinds.
 
@@ -91,8 +96,21 @@ sudo usermod -aG docker ${USER} # Anadir al grupo de docker
 docker-compose up -d
 ```
 ### Generar Datos de prueba
+
+Generar script (ejecutando linea por linea de los archivos .sql)
 ```bash
-# Eje
+cd Server
+source venv/bin/activate
+python sql/populate.py 2 # arg `2` = Reset
+```
+
+Entrar a mysql en docker-compose
+```bash
+# Entrar a dcoker-compose
+docker exec -it mysql-server bash
+
+# mysql Shell (pwd: `root`)
+mysql -u root -p
 ```
 
 # Bibliografia
