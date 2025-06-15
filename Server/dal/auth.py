@@ -12,7 +12,6 @@ def user(correo, password):
     try:
         # (correo, contraseña, es_administrador)
         query = utils.get_entry("login", "correo", correo)
-        
         if not query:
             print(f"email o pwd incorrectas para {correo}.") # Usuario no existe
             return False

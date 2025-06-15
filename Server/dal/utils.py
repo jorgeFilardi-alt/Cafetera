@@ -64,7 +64,7 @@ def get_entry(table: str, property: str, value):
     
     def query(cursor):
         query = f"SELECT * FROM gestion_comercial.{san_stmt(table)} WHERE {san_stmt(property)} = %s"
-        cursor.execute(query, ( int(value),))
+        cursor.execute(query, (value,))
         for row in cursor:
             results.append(row)
 
