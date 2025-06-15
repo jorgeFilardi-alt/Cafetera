@@ -3,10 +3,6 @@ Data Access Layer (MySQL database)
 """ 
 import dal.utils as utils
 
-def gen_data():
-    return "ad"
-
-
 # tabla completa clientes de la empresa
 def get_clientes(documento):
     results = []
@@ -19,7 +15,6 @@ def get_clientes(documento):
     utils.db_cursor(query)
     return results
 
-# TODO: use full query for SELECT *
 # tabla completa clientes de la empresa
 def get_tecnicos():
     results = []
