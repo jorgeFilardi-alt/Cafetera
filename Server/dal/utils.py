@@ -26,6 +26,19 @@ def db_cursor(crud_op):
         conexion.close()
 
 """
+Sanitize Statement - Validar statements SQL (Parameterized) (Custom query builder)
+Simplifica: checkeo de comillas.., caracteres sql injection
+nota: remueve tildes, enie.. (cuando %s no posible)
+"""
+def san_stmt(statement: str):
+    validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
+    sanitized = ''
+    for char in statement.replace(" ", "").replace("\n", "").replace("\t", ""):
+        if char in validChars:
+            sanitized += char
+    return sanitized
+
+"""
 Funcion utilitaria, get completo para una tabla (SELECT *)
 Simplifica: endpoints simples, ej. https://localhost:8000/clientes
 """
@@ -50,8 +63,8 @@ def get_entry(table: str, property: str, value):
     results = []
     
     def query(cursor):
-        query = f"SELECT * FROM gestion_comercial.{table} WHERE {property} = %s"
-        cursor.execute(query, (value,))
+        query = f"SELECT * FROM gestion_comercial.{san_stmt(table)} WHERE {san_stmt(property)} = %s"
+        cursor.execute(query, ( int(value),))
         for row in cursor:
             results.append(row)
 
