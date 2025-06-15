@@ -6,11 +6,13 @@ uvicorn main:app --reload
 from fastapi import FastAPI # pip install fastapi uvicorn
 from dal.queries import get_clientes, get_tecnicos
 from dal.utils import get_table, get_entry
+import dal.auth as auth
 
 app = FastAPI()
 
 @app.get("/clientes")
 async def clientes():
+    auth.user("admin@gc.com", "adminpass123")
     return get_table("clientes")
 
 @app.get("/cliente") # singular, ej. GET localhost:8000/cliente?id_cliente=201
