@@ -22,6 +22,7 @@ def db_cursor(crud_op):
         cursor.close()
         return result
     finally:
+        conexion.commit()
         conexion.close()
 
 """

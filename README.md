@@ -17,10 +17,11 @@ docker-compose -f /Server/sql/docker-compose.yml up -d
 ```bash
 # Terminal 3 (api, endpoint)
 cd Server
-source venv/bin/activate 
+source venv/bin/activate
+python sql/populate.py 1
 uvicorn main:app --reload
 ```
-[Extracto de](#inicializacion-backend)
+[Backend (python + fastapi)](#inicializacion-backend)
 
 ## Requirements:
 
@@ -70,7 +71,7 @@ Compartir servidor, podriamos usar docker (la entrega no especifica). Por simpli
 
 ### Requisitos:
 
-- Instancia MySQL en `127.0.0.1`
+- Instancia MySQL en `127.0.0.1` ([docker-compose](#instalacion-docker-compose))
 - Base de datos `gestion_comercial`
 - Usuario de mysql `root`, pwd `root`
 - Dependencias del repo (pip, ...)

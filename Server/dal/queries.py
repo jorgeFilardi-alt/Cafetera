@@ -1,5 +1,5 @@
 """
-Data access layer for a MySQL database
+Data Access Layer (MySQL database)
 """ 
 from dal.utils import db_cursor
 
