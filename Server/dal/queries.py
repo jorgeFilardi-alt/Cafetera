@@ -1,7 +1,7 @@
 """
 Data Access Layer (MySQL database)
 """ 
-from dal.utils import db_cursor
+import dal.utils as utils
 
 def gen_data():
     return "ad"
@@ -16,7 +16,7 @@ def get_clientes(documento):
         for (id_cliente, nombre, direccion) in cursor:
             results.append({"id_cliente": id_cliente, "nombre": nombre, "direccion": direccion})
 
-    db_cursor(query)
+    utils.db_cursor(query)
     return results
 
 # TODO: use full query for SELECT *
@@ -30,5 +30,5 @@ def get_tecnicos():
         for (ci, nombre, apellido, telefono) in cursor:
             results.append({"ci": ci, "nombre": nombre, "telefono": telefono})
 
-    db_cursor(query)
+    utils.db_cursor(query)
     return results
