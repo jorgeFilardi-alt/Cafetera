@@ -114,6 +114,20 @@ docker exec -it mysql-server bash
 mysql -u root -p
 ```
 
+POST request con autenticacion:
+```bash
+curl -X 'POST' \
+  'http://localhost:8000/login-test' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "correo": "admin@gc.com",
+  "pwd_hash": "adminpass123"
+}'
+```
+
+## DAL layer (auth y sanitize statements)
+
 # Bibliografia
 
 TODO: citar comandos?
+pydantic, basemodel??
