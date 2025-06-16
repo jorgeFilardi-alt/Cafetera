@@ -12,10 +12,11 @@ from collections import namedtuple
 load_dotenv()  # Cargar variables de entorno desde .env
 User = namedtuple("User", ["correo", "contraseña", "es_administrador"])
 
-def creds(correo, password):
+def check_creds(correo, password):
     """
-    Verifica credenciales de un usuario - devuelve token, rol, payload
-    Simplifica: login / generar token
+    Verifica credenciales de un usuario - devuelve verdadero o falso
+    Dado el usuario en base de datos, verifica si el correo y contraseña coinciden.
+    TODO: Computa hash de contraseña y compara con hash almacenado en base de datos.
     """
     try:
         # (correo, contraseña, es_administrador)
@@ -29,12 +30,12 @@ def creds(correo, password):
         
         # Credenciales correctas, generar JWT
         print(f"Credenciales correctas para {user.correo}")
-        return {"is_auth": True, 'es_administrador': user.es_administrador, "correo": user.correo, "jwt": _gen_jwt(user.correo)}
+        return True
     
     # Error
     except Exception as e:
         print(f"Error al autenticar credenciales de {correo}: {e}")
-        return {"is_auth": False, 'es_administrador': False, "correo": None, "jwt": None}
+        return False
     
 def verify(token):
     """
@@ -47,12 +48,12 @@ def verify(token):
         if not latest_user or len(latest_user) == 0:
             raise Exception(f"Usuario {payload.get("correo")} no existe o jwt desactualizado.")
 
-        if payload.get("exp") < datetime.now().timestamp():
+        if int(payload.get("exp")) < datetime.now().timestamp():
             raise Exception(f"Token expirado para {payload.get("correo")}.")
         
         user = User(*latest_user[0])
         # Re generar jwt token
-        token = _gen_jwt(user.correo)
+        token = gen_jwt(user.correo, user.contraseña)
         
         # Autenticación exitosa
         print(f"Token verificado correctamente para {payload.get("correo")}.")
@@ -62,30 +63,34 @@ def verify(token):
         print(f"Error al verificar token: {e}")
         return {"is_auth": False, "es_administrador": False, "correo": None, "jwt": None}
 
-def _gen_jwt(correo):
+def gen_jwt(correo, contraseña):
     """
-    @private - Verificar usuario y contraseña de ante mano!
-    Genera un token JWT para un usuario verificado.
+    Genera un token JWT para un usuario.
+    Verifica credenciales y genera un token JWT si son correctas.
+    Devuelve su payload
     """
     try:
         query = utils.get_entry("login", "correo", correo) 
         
         if not query or len(query) == 0:
             raise Exception(f"Usuario no existe para {correo}.")
+        
+        if check_creds(correo, contraseña) is False:
+            raise Exception(f"Credenciales incorrectas para {correo}.")
 
         # Generar token para usuario en db
         user = User(*query[0]) 
         payload = {
             "correo": user.correo,
             "es_administrador": user.es_administrador,
-            "exp": datetime.now().timestamp() + os.getenv("JWT_EXPIRATION", 60 * 60 * 0.5)
+            "exp": datetime.now().timestamp() + int(os.getenv("JWT_EXPIRATION", 60 * 60 * 12))
         }
 
         # Generada Exitosamente
         token = f"Bearer {jwt.encode(payload, os.getenv("JWT_SECRET", "jwt_pwd"), algorithm = os.getenv("JWT_ALGORITHM", "HS256"))}"
         print(f"Token generada para {user.correo}.")
-        return token
+        return {"is_auth": True, 'es_administrador': user.es_administrador, "correo": user.correo, "jwt": token}
     
     except Exception as e:
         print(f"Error al Generar token: {e}")
-        return None
+        return {"is_auth": False, 'es_administrador': False, "correo": None, "jwt": None}

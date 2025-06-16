@@ -66,5 +66,5 @@ class LoginBody(BaseModel):
 
 @app.post("/login")
 async def login(req: LoginBody):
-    user = auth.creds(req.correo, req.pwd_hash)
-    return user # Devolver token JWT
+    payload = auth.gen_jwt(req.correo, req.pwd_hash)
+    return payload # Devolver token JWT
