@@ -96,6 +96,13 @@ sudo usermod -aG docker ${USER} # Anadir al grupo de docker
 # Init
 docker-compose up -d
 ```
+
+### Creaer Variables de entorno
+Para protejer los datos de nuestros usuarios debemos protejer nuestras claves privadas, de esta manera verificar la firma del payload mandado por el usuario
+```bash
+echo -e 'JWT_SECRET="si_no_si_si"\nJWT_ALGORITHM="HS256"\nJWT_EXPIRATION=60 * 60 * 12' > .env
+```
+
 ### Generar Datos de prueba
 
 Generar script (ejecutando linea por linea de los archivos .sql)

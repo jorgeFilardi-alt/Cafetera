@@ -4,3 +4,4 @@ mysql-connector-python
 docker
 docker-compose
 PyJWT
+python-dotenv

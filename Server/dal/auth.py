@@ -2,15 +2,14 @@
 Autenticacion de usuarios
 uso en namespace, auth.user(correo, password)
 """
+import os
 import jwt
+from dotenv import load_dotenv
 from datetime import datetime
 import dal.utils as utils
 from collections import namedtuple
 
-JWT_SECRET = "si_no_si_si"  # Si, va publica porque es un proyecto de faq (TODO: .env)
-JWT_ALGORITHM = "HS256"
-JWT_EXPIRATION = 60 * 60 * 12 # 12 horas
-
+load_dotenv()  # Cargar variables de entorno desde .env
 User = namedtuple("User", ["correo", "contraseña", "es_administrador"])
 
 """
@@ -42,7 +41,7 @@ Verifica y revalida el token JWT => devuelve su payload
 """
 def verify(token):
     try:
-        payload = jwt.decode(token[7:], JWT_SECRET, algorithms=[JWT_ALGORITHM])
+        payload = jwt.decode(token[7:], os.getenv("JWT_SECRET", "jwt_pwd"), algorithms=[os.getenv("JWT_ALGORITHM")])
         latest_user = utils.get_entry("login", "correo", payload.get("correo")) # update payload
 
         if not latest_user or len(latest_user) == 0:
@@ -79,11 +78,11 @@ def _gen_jwt(correo):
         payload = {
             "correo": user.correo,
             "es_administrador": user.es_administrador,
-            "exp": datetime.now().timestamp() + JWT_EXPIRATION
+            "exp": datetime.now().timestamp() + os.getenv("JWT_EXPIRATION", 60 * 60 * 0.5)
         }
 
         # Generada Exitosamente
-        token = f"Bearer {jwt.encode(payload, JWT_SECRET, algorithm = JWT_ALGORITHM)}"
+        token = f"Bearer {jwt.encode(payload, os.getenv("JWT_SECRET", "jwt_pwd"), algorithm = os.getenv("JWT_ALGORITHM", "HS256"))}"
         print(f"Token generada para {user.correo}.")
         return token
     
