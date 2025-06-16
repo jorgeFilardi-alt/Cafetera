@@ -12,11 +12,11 @@ from collections import namedtuple
 load_dotenv()  # Cargar variables de entorno desde .env
 User = namedtuple("User", ["correo", "contraseña", "es_administrador"])
 
-"""
-Verifica credenciales de un usuario - devuelve token, rol, payload
-Simplifica: login / generar token
-"""
 def creds(correo, password):
+    """
+    Verifica credenciales de un usuario - devuelve token, rol, payload
+    Simplifica: login / generar token
+    """
     try:
         # (correo, contraseña, es_administrador)
         query = utils.get_entry("login", "correo", correo)
@@ -36,10 +36,10 @@ def creds(correo, password):
         print(f"Error al autenticar credenciales de {correo}: {e}")
         return {"is_auth": False, 'es_administrador': False, "correo": None, "jwt": None}
     
-"""
-Verifica y revalida el token JWT => devuelve su payload
-"""
 def verify(token):
+    """
+    Verifica y revalida el token JWT => devuelve su payload
+    """
     try:
         payload = jwt.decode(token[7:], os.getenv("JWT_SECRET", "jwt_pwd"), algorithms=[os.getenv("JWT_ALGORITHM")])
         latest_user = utils.get_entry("login", "correo", payload.get("correo")) # update payload
@@ -62,11 +62,11 @@ def verify(token):
         print(f"Error al verificar token: {e}")
         return {"is_auth": False, "es_administrador": False, "correo": None, "jwt": None}
 
-"""
-@private - Verificar usuario y contraseña de ante mano!
-Genera un token JWT para un usuario verificado.
-"""
 def _gen_jwt(correo):
+    """
+    @private - Verificar usuario y contraseña de ante mano!
+    Genera un token JWT para un usuario verificado.
+    """
     try:
         query = utils.get_entry("login", "correo", correo) 
         

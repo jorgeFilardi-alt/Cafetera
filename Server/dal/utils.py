@@ -4,11 +4,11 @@ Utilidades para la aplicacion de gestion comercial backend
 
 import mysql.connector #pip install mysql-connector-python
 
-"""
-Funcion utilitaria para ejecutar operaciones CRUD
-Simplifica: necesidad de declarar conexion, cursor y close
-"""
 def db_cursor(crud_op):
+    """
+    Funcion utilitaria para ejecutar operaciones CRUD
+    Simplifica: necesidad de declarar conexion, cursor y close
+    """
     conexion = mysql.connector.connect(
         user='root',
         password='root',
@@ -25,12 +25,12 @@ def db_cursor(crud_op):
         conexion.commit()
         conexion.close()
 
-"""
-Sanitize Statement - Validar statements SQL (Parameterized) (Custom query builder)
-Simplifica: checkeo de comillas.., caracteres sql injection
-nota: remueve tildes, enie.. (cuando %s no posible)
-"""
 def san_stmt(statement: str):
+    """
+    Sanitize Statement - Validar statements SQL (Parameterized) (Custom query builder)
+    Simplifica: checkeo de comillas.., caracteres sql injection
+    nota: remueve tildes, enie.. (cuando %s no posible)
+    """
     validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
     sanitized = ''
     for char in statement.replace(" ", "").replace("\n", "").replace("\t", ""):
@@ -38,11 +38,11 @@ def san_stmt(statement: str):
             sanitized += char
     return sanitized
 
-"""
-Funcion utilitaria, get completo para una tabla (SELECT *)
-Simplifica: endpoints simples, ej. https://localhost:8000/clientes
-"""
 def get_table(table: str):
+    """
+    Funcion utilitaria, get completo para una tabla (SELECT *)
+    Simplifica: endpoints simples, ej. https://localhost:8000/clientes
+    """
     results = []
     
     def query(cursor):
@@ -54,12 +54,12 @@ def get_table(table: str):
     db_cursor(query)
     return results
 
-"""
-Funcion utilitaria, data point especifico (row / record / entry)
-Dado una tabla, propiedad, y valor
-Simplifica: endpoints individuales simples, ej. https://localhost:8000/cliente/123456
-"""
 def get_entry(table: str, property: str, value):
+    """
+    Funcion utilitaria, data point especifico (row / record / entry)
+    Dado una tabla, propiedad, y valor
+    Simplifica: endpoints individuales simples, ej. https://localhost:8000/cliente/123456
+    """
     results = []
     
     def query(cursor):
