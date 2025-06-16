@@ -133,7 +133,40 @@ echo -e 'JWT_SECRET="si_no_si_si"\nJWT_ALGORITHM="HS256"\nJWT_EXPIRATION=60 * 60
 
 ## DAL layer (auth y sanitize statements)
 
+### POST requests de ejemplo, autenticacion:
+
+```bash
+# Ruta normal
+
+curl -X 'GET' \
+  'http://localhost:8000/cliente?id_cliente=201' \
+  -H 'Content-Type: application/json' \
+
+# TODO: Registrar usuario
+
+# Generar token de autenticacion para usuario
+
+curl -X 'POST' \
+  'http://localhost:8000/login' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "correo": "admin@gc.com",
+  "pwd_hash": "adminpass123"
+}'
+
+# Ruta autenticada requiere Bearer (JWT en Headers)
+
+curl -X 'PUT' \
+  'http://localhost:8000/proveedor' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb3JyZW8iOiJhZG1pbkBnYy5jb20iLCJpc19hZG1pbiI6MSwiZXhwIjoxNzUwMDgwMTQ0Ljc0MTkxOH0.y4h6zG_CDIl2o9HR2YvCw_Jh4ZFasLEwbZci9OwgKo8' \
+  -d '{
+  "correo": "admin@gc.com",
+  "pwd_hash": "adminpass123"
+}'
+```
+
 # Bibliografia
 
-TODO: citar comandos?
+TODO: citar comandos? fastapi docs
 pydantic, basemodel??
