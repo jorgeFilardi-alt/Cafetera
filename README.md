@@ -159,14 +159,17 @@ curl -X 'POST' \
 curl -X 'PUT' \
   'http://localhost:8000/proveedor' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb3JyZW8iOiJhZG1pbkBnYy5jb20iLCJpc19hZG1pbiI6MSwiZXhwIjoxNzUwMDgwMTQ0Ljc0MTkxOH0.y4h6zG_CDIl2o9HR2YvCw_Jh4ZFasLEwbZci9OwgKo8' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb3JyZW8iOiJhZG1pbkBnYy5jb20iLCJlc19hZG1pbmlzdHJhZG9yIjoxLCJleHAiOjE3NTAxNTA3NDIuMDExMTY3fQ.x9u48w2k3ea-m6A4uv5SBW8AIku4a2xF4FebPScDE2s' \
   -d '{
   "correo": "admin@gc.com",
   "pwd_hash": "adminpass123"
 }'
 ```
+## Estructura http ()
+Peticiones / metodos web dentro del protocolo http: `GET`, `POST`, `PUT`, `PATCH`, `DELETE`. Sus estructura esperadas, de la response y request.
 
+### PUT (Updates)
 # Bibliografia
 
 TODO: citar comandos? fastapi docs
-pydantic, basemodel??
+pydantic, basemodel?? / REEMPLZADO con dataclass
