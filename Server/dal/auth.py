@@ -50,9 +50,12 @@ def verify(token):
     """
     Verifica y revalida el token JWT => devuelve su payload
     """
+    if not token or len(token) == 0:
+        raise InternalException("Token no proporcionado o inválido.", 401, f"Sin token: {token}:", "auth.verify")
+
     payload = jwt.decode(token[7:], os.getenv("JWT_SECRET", "jwt_pwd"), algorithms=[os.getenv("JWT_ALGORITHM")])
     latest_user = utils.get_entry("login", "correo", payload.get("correo")) # update payload
-
+    
     if not latest_user or len(latest_user) == 0:
         raise InternalException(f"Usuario {payload.get("correo")} no existe o jwt desactualizado.", 400, f"Error al autenticar credenciales de {correo}:", "auth.verify")
 

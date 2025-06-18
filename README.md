@@ -12,7 +12,8 @@ npm run dev
 ### Back End
 ```bash
 # Terminal 2 (mysql)
-docker-compose -f /Server/sql/docker-compose.yml up -d
+cd Server/sql
+docker-compose up -d 
 ```
 ```bash
 # Terminal 3 (api, endpoint)
@@ -44,6 +45,7 @@ source venv/bin/activate
 # fastapi => uvicorn
 uvicorn main:app --reload
 # Instancia docker de mysql
+cd sql
 docker-compose up -d # off: ...ose down
 ```
 Go to ´http://127.0.0.1:8000/docs#/´ to see swagger and specification of the endpoinds.
@@ -169,7 +171,13 @@ curl -X 'PUT' \
 Peticiones / metodos web dentro del protocolo http: `GET`, `POST`, `PUT`, `PATCH`, `DELETE`. Sus estructura esperadas, de la response y request.
 
 ### PUT (Updates)
+
+Si exitoso, responde con el recurso actualizado.
+
+En fallo, responde con error.
+
 # Bibliografia
 
 TODO: citar comandos? fastapi docs
 pydantic, basemodel?? / REEMPLZADO con dataclass
+HTTPException, fastapi (parametros etc)

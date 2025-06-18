@@ -8,39 +8,17 @@ from dataclasses import dataclass
 import dal.queries as queries
 import dal.utils as utils
 import dal.auth as auth
-from exceptions import InternalException
-from fastapi.responses import JSONResponse
+import middleware
 
-API_PUBLIC_PATHS = ["/login", "/register", "/docs"] # Defecto: todo privado
+app = FastAPI()
 
 @dataclass
 class LoginBody():
     correo: str = None
     pwd_hash: str = None
 
-app = FastAPI()
-
-@app.middleware("http") # http: refiere a solicitudes no protocolo http/https
-async def auth_middleware(req: Request, call_next):
-    try:
-        if req.url.path not in API_PUBLIC_PATHS:
-            token = req.headers.get("Authorization")
-            req.state.user = auth.verify(token) # Autenticar con JWT
-        return await call_next(req)
-    
-    except InternalException as e:
-        print(f"[{e.status_code}-{e._origin}]: Error Interno: {e._msg}")
-        return JSONResponse(
-            status_code=e.status_code,
-            content=e.detail # _msg info sensible
-        )
-    
-    except Exception as e:
-        print(f"Error en middleware: {e}")
-        return JSONResponse(
-            status_code=500,
-            content="Internal Server Error"
-        )
+app.middleware("http")(middleware.access)
+app.middleware("http")(middleware.exceptions)
 
 @app.get("/clientes")
 async def clientes(req: Request):
