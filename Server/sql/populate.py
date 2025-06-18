@@ -26,16 +26,17 @@ Ejecutar sql statements en schema.sql & test-data.sql
 `override`: 0 = no override, 1 = override, 2 = full reset
 """
 def populate(override = 0):
+    usrs = get_statements("sql/init.sql")
     rst = get_statements("sql/reset.sql") if int(override) >= 2 else []
     tbs = get_statements("sql/schema.sql") if int(override) >= 1 else []
     pops = get_statements("sql/test-data.sql") 
 
     def insert(cursor):
-        for idx, stmt in enumerate(rst + tbs + pops):
+        for idx, stmt in enumerate(usrs + rst + tbs + pops):
             print(f"\nPopulate Statement #{idx}:\n\n", stmt)
             cursor.execute(stmt)
 
-    db_cursor(insert)
+    db_cursor(insert, "ROOT")
     print("Database populated successfully.")
 
 if __name__ == "__main__":

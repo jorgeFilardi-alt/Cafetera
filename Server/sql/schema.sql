@@ -1,19 +1,15 @@
 -- Modelo de datos (Schema / Setup / Tablas)
-
-CREATE DATABASE IF NOT EXISTS gestion_comercial;
-USE gestion_comercial;
-
 CREATE TABLE IF NOT EXISTS login(
     correo VARCHAR(20) PRIMARY KEY,
     pwd_hash VARCHAR(60), -- bcrypt hash
-    --salt
+    -- salt
     es_administrador BOOLEAN,
     CHECK (LENGTH(pwd_hash) > 8)
 );
 CREATE TABLE IF NOT EXISTS proveedores(
     id_proveedor INT PRIMARY KEY,
     nombre VARCHAR(20),
-    telefono INT --Se reemplaza la columna sugerida "contacto" por "telefono" para evitar distintos tipos de dato de contacto.
+    telefono INT -- Se reemplaza la columna sugerida "contacto" por "telefono" para evitar distintos tipos de dato de contacto.
 );
 CREATE TABLE IF NOT EXISTS insumos(
     id_insumo INT PRIMARY KEY,

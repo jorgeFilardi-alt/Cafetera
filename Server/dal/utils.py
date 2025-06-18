@@ -4,15 +4,21 @@ Utilidades para la aplicacion de gestion comercial backend
 
 import mysql.connector #pip install mysql-connector-python
 
-def db_cursor(crud_op):
+DB_USERS = {
+    "READ": {"user": "reader", "password": "reader_pass", },
+    "WRITE": {"user": "writer", "password": "writer_pass", },
+    "ROOT": {"user": "root", "password": "root", },
+}
+
+def db_cursor(crud_op, op = "READ"):
     """
     Funcion utilitaria para ejecutar operaciones CRUD
     Simplifica: necesidad de declarar conexion, cursor y close
     """
     conexion = mysql.connector.connect(
-        user='root',
-        password='root',
         host='127.0.0.1',
+        user=DB_USERS[op]["user"],
+        password=DB_USERS[op]["password"],
         database='gestion_comercial',
         auth_plugin='mysql_native_password'
     )
