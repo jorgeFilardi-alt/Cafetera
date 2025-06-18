@@ -14,12 +14,12 @@ INSERT IGNORE INTO login (correo, pwd_hash, es_administrador) VALUES
 ('ana.m@gc.com', 'anamartinezpass', FALSE);
 
 -- 2. Tabla: proveedores
-INSERT IGNORE INTO proveedores (id_proveedor, nombre, telefono) VALUES
-(101, 'Café Tostado S.A.', 29001234),
-(102, 'Lácteos del Sur', 26005678),
-(103, 'DulceRico Azúcar', 23059012),
-(104, 'Insumos Globales', 24083456),
-(105, 'Agua Pura SRL', 22007890);
+INSERT IGNORE INTO proveedores (id_proveedor, nombre, telefono, en_alta) VALUES
+(101, 'Café Tostado S.A.', 29001234, TRUE),
+(102, 'Lácteos del Sur', 26005678, TRUE),
+(103, 'DulceRico Azúcar', 23059012, TRUE),
+(104, 'Insumos Globales', 24083456, TRUE),
+(105, 'Agua Pura SRL', 22007890, TRUE);
 
 -- 3. Tabla: insumos
 INSERT IGNORE INTO insumos (id_insumo, descripcion, tipo, precio_unitario, id_proveedor) VALUES

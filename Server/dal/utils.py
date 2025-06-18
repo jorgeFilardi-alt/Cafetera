@@ -76,3 +76,9 @@ def get_entry(table: str, property: str, value):
 
     db_cursor(query)
     return results
+
+def to_clause(data):
+    """
+    python Dict to  sql SET clause
+    """
+    return", ".join(f"{key} = {value}" for key, value in data.items())

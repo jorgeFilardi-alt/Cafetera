@@ -5,10 +5,11 @@ uvicorn main:app --reload
 """
 from fastapi import FastAPI, Request # pip install fastapi uvicorn
 from dataclasses import dataclass
-import dal.queries as queries
+import dal.queries as queries # read?
+import dal.updates as updates
 import dal.utils as utils
 import dal.auth as auth
-import middleware
+import middleware # mdlwr
 
 app = FastAPI()
 
@@ -16,6 +17,11 @@ app = FastAPI()
 class LoginBody():
     correo: str = None
     pwd_hash: str = None
+
+@dataclass
+class ProveedorBody():
+    uId: str
+    en_alta: str
 
 app.middleware("http")(middleware.access)
 app.middleware("http")(middleware.exceptions)
@@ -37,9 +43,10 @@ async def proveedor(id_proveedor: int = None, name: str = None, username: str = 
     return utils.get_entry("proveedores", "id_proveedor", id_proveedor)
 
 @app.put("/proveedor") # UPDATE proveedor (solo admin)
-async def update_proveedor(req: Request):
+async def update_proveedor(req: Request, body: ProveedorBody):
     if req.state.user.is_auth and req.state.user.es_administrador:
         print("Privilegios de administrador verificados.")
+        updates.proveedor(body.uId, {"en_alta": body.en_alta})
         return True # TODO: Implementar actualizacion de proveedor
     return False # TODO: Implementar actualizacion de proveedor
 
