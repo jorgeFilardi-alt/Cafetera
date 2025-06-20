@@ -29,7 +29,7 @@ async def exceptions(req: Request, next):
         return await next(req)
     
     except InternalException as e:
-        print(f"Middleware: [{e.status_code}-{e._origin}]: {e._msg}")
+        print(f"[{e.status_code}-{e._origin}] en middleware: {e._msg}")
         return JSONResponse(
             status_code=e.status_code,
             content=e.detail # _msg info sensible
