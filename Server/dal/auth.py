@@ -57,10 +57,10 @@ def verify(token):
     latest_user = utils.get_entry("login", "correo", payload.get("correo")) # update payload
     
     if not latest_user or len(latest_user) == 0:
-        raise InternalException(f"Usuario {payload.get("correo")} no existe o jwt desactualizado.", 400, f"Error al autenticar credenciales de {correo}:", "auth.verify")
+        raise InternalException(f"Usuario {payload.get("correo")} no existe o jwt desactualizado.", 400, f"Error al autenticar token, usuaria <=> payload de {payload.get("correo")}:", "auth.verify")
 
-    if int(payload.get("exp")) < datetime.now().timestamp():
-        raise InternalException(f"Token expirado para {payload.get("correo")}.", 401, f"Error al autenticar credenciales de {correo}:", "auth.verify")
+    if int(payload.get("expires")) < datetime.now().timestamp():
+        raise InternalException(f"Token incorrecto, re-inicie sesion.", 401, f"Token expirado para {payload.get("correo")}:", "auth.verify")
     
     user = User(*latest_user[0])
     # Re generar jwt token
@@ -89,11 +89,11 @@ def gen_jwt(correo, contraseña):
         raise InternalException(f"Credenciales incorrectas para {correo}.", 401, f"Error al generar token {correo} {contraseña[:2]}", "auth.gen_jwt")
 
     # Generar token para usuario en db
-    user = User(*query[0]) 
+    user = User(*query[0])
     payload = {
         "correo": user.correo,
         "es_administrador": user.es_administrador,
-        "exp": datetime.now().timestamp() + int(os.getenv("JWT_EXPIRATION", 60 * 60 * 12))
+        "expires": datetime.now().timestamp() + int(os.getenv("JWT_EXPIRATION", 60 * 60 * 12))
     }
 
     # Generada Exitosamente
