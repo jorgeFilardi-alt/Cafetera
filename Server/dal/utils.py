@@ -31,14 +31,18 @@ def db_cursor(crud_op, op = "READ"):
         conexion.commit()
         conexion.close()
 
-def san_stmt(statement: str):
+def san(statement: str | bool | int | None):
     """
     Sanitize Statement - Validar statements SQL (Parameterized) (Custom query builder)
-    Simplifica: checkeo de comillas.., caracteres sql injection
+    Simplifica: checkeo de comillas.., caracteres sql injection / argumentos
     nota: remueve tildes, enie.. (cuando %s no posible)
     """
     validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
     sanitized = ''
+
+    if isinstance(statement, (bool, int)) or statement is None:
+        return f"{statement}"
+
     for char in statement.replace(" ", "").replace("\n", "").replace("\t", ""):
         if char in validChars:
             sanitized += char
@@ -69,7 +73,7 @@ def get_entry(table: str, property: str, value):
     results = []
     
     def query(cursor):
-        query = f"SELECT * FROM gestion_comercial.{san_stmt(table)} WHERE {san_stmt(property)} = %s"
+        query = f"SELECT * FROM gestion_comercial.{san(table)} WHERE {san(property)} = %s"
         cursor.execute(query, (value,))
         for row in cursor:
             results.append(row)
@@ -81,4 +85,4 @@ def to_clause(data):
     """
     python Dict to  sql SET clause
     """
-    return", ".join(f"{key} = {value}" for key, value in data.items())
+    return ", ".join(f"{san(key)} = {san(value)}" for key, value in data.items())
