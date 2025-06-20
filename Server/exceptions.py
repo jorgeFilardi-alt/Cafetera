@@ -3,6 +3,8 @@ Excepciones personalizadas para el servidor.
 Abstraccion principal: manejo de respuestas HTTP y errores (con sin exponer detalles sensibles).
 """
 # from fastapi import HTTPException
+from datetime import datetime
+
 
 class InternalException(Exception):
     """
@@ -13,6 +15,7 @@ class InternalException(Exception):
         self._origin = internalOrigin
         self.status_code = status_code
         self.detail = msg
+        self.timestamp = datetime.now().timestamp()
         super().__init__(msg)
 
 """

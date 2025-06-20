@@ -11,5 +11,11 @@ def proveedor(uId, new_props):
         stmt = f"UPDATE proveedores SET {clause} WHERE id_proveedor = %s"
         cursor.execute(stmt, (uId,))
 
-    #TODO: devolver updated
-    return utils.db_cursor(crud, "WRITE")
+    # Devolver updated
+    def get_updated(cursor):
+        query = f"SELECT * FROM proveedores WHERE id_proveedor = %s"
+        cursor.execute(query, (uId,))
+        return cursor.fetchone()
+    
+    utils.db_cursor(crud, "WRITE")
+    return utils.db_cursor(get_updated, "READ")
