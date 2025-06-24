@@ -48,41 +48,23 @@ def san(statement: str | bool | int | None):
             sanitized += char
     return sanitized
 
-def get_table(table: str):
-    """
-    Funcion utilitaria, get completo para una tabla (SELECT *)
-    Simplifica: endpoints simples, ej. https://localhost:8000/clientes
-    """
-    results = []
-    
-    def query(cursor):
-        query = f"SELECT * FROM gestion_comercial.{table}"
-        cursor.execute(query)
-        for row in cursor:
-            results.append(row)
-
-    db_cursor(query)
-    return results
-
-def get_entry(table: str, property: str, value):
-    """
-    Funcion utilitaria, data point especifico (row / record / entry)
-    Dado una tabla, propiedad, y valor
-    Simplifica: endpoints individuales simples, ej. https://localhost:8000/cliente/123456
-    """
-    results = []
-    
-    def query(cursor):
-        query = f"SELECT * FROM gestion_comercial.{san(table)} WHERE {san(property)} = %s"
-        cursor.execute(query, (value,))
-        for row in cursor:
-            results.append(row)
-
-    db_cursor(query)
-    return results
-
 def to_clause(data):
     """
     python Dict to  sql SET clause
     """
     return ", ".join(f"{san(key)} = {san(value)}" for key, value in data.items())
+
+def to_tb_cols(model):
+    """
+    Columns name list (INSERT INTO (__)) (sanitized)
+    nombre de columnas a partir de los atributos de un modelo
+    """
+    atts = list(model.model_fields.keys())
+    return ", ".join(f"{san(att)}" for att in atts)
+
+def to_entry(entry):
+    """
+    Devolver valores del modelo (CREATE: )
+    """
+    vals = list(entry.dict().values())
+    return ", ".join(f"'{san(val)}'" for val in vals)

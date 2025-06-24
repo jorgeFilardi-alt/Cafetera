@@ -6,7 +6,7 @@ import os
 import jwt
 from dotenv import load_dotenv
 from datetime import datetime
-import dal.utils as utils
+import dal.crud as crud
 from collections import namedtuple
 from dataclasses import dataclass
 from exceptions import InternalException
@@ -35,7 +35,7 @@ def check_creds(correo, password):
     TODO: Computa hash de contraseña y compara con hash almacenado en base de datos.
     """
     # (correo, contraseña, es_administrador)
-    query = utils.get_entry("login", "correo", correo)
+    query = crud.get_entry("login", "correo", correo)
     if not query or len(query) == 0:
         raise InternalException(f"Usuario: {correo} no existe.", 400, f"Error al autenticar credenciales de {correo}:", "auth.check_creds")
     
@@ -45,6 +45,12 @@ def check_creds(correo, password):
     
     # Credenciales correctas, generar JWT
     return True
+
+def get_creds(correo, password):
+    """
+    Comutar salt hash etc, devolver (guardar en CREATE)
+    """
+    return password
     
 def verify(token):
     """
@@ -54,7 +60,7 @@ def verify(token):
         raise InternalException("Token no proporcionado o inválido.", 401, f"Sin token: {token}:", "auth.verify")
 
     payload = jwt.decode(token[7:], os.getenv("JWT_SECRET", "jwt_pwd"), algorithms=[os.getenv("JWT_ALGORITHM")])
-    latest_user = utils.get_entry("login", "correo", payload.get("correo")) # update payload
+    latest_user = crud.get_entry("login", "correo", payload.get("correo")) # update payload
     
     if not latest_user or len(latest_user) == 0:
         raise InternalException(f"Usuario {payload.get("correo")} no existe o jwt desactualizado.", 400, f"Error al autenticar token, usuaria <=> payload de {payload.get("correo")}:", "auth.verify")
@@ -80,7 +86,7 @@ def gen_jwt(correo, contraseña):
     Verifica credenciales y genera un token JWT si son correctas.
     Devuelve su payload
     """
-    query = utils.get_entry("login", "correo", correo) 
+    query = crud.get_entry("login", "correo", correo) 
     
     if not query or len(query) == 0:
         raise InternalException(f"Usuario no existe para {correo}.", 400, f"Error al generar token {correo} {contraseña[:2]}", "auth.gen_jwt")
