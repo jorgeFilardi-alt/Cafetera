@@ -132,6 +132,9 @@ Para protejer los datos de nuestros usuarios debemos protejer nuestras claves pr
 ```bash
 echo -e 'JWT_SECRET="si_no_si_si"\nJWT_ALGORITHM="HS256"\nJWT_EXPIRATION=60 * 60 * 12' > .env
 ```
+### Type-safe client (schema models)
+
+Tipamos nuestro esquema de datos a `@dataclass`
 
 ## DAL layer (auth y sanitize statements)
 
@@ -144,7 +147,12 @@ curl -X 'GET' \
   'http://localhost:8000/cliente?id_cliente=201' \
   -H 'Content-Type: application/json' \
 
-# TODO: Registrar usuario
+# Registrar usuario
+
+curl -X 'POST'   'http://localhost:8000/register'   -H 'Content-Type: application/json'   -d '{
+  "correo": "admin10@gc.com",
+  "pwd_hash": "adminpass123"
+}'
 
 # Generar token de autenticacion para usuario
 
@@ -161,10 +169,10 @@ curl -X 'POST' \
 curl -X 'PUT' \
   'http://localhost:8000/proveedor' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb3JyZW8iOiJhZG1pbkBnYy5jb20iLCJlc19hZG1pbmlzdHJhZG9yIjoxLCJleHAiOjE3NTAxNTA3NDIuMDExMTY3fQ.x9u48w2k3ea-m6A4uv5SBW8AIku4a2xF4FebPScDE2s' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb3JyZW8iOiJhZG1pbkBnYy5jb20iLCJlc19hZG1pbmlzdHJhZG9yIjoxLCJleHBpcmVzIjoxNzUwODEzOTQ3LjM2NjQzNX0.rWFlzB5a47vbB5UamCULnuaiF1ilLb_YB4-VL1hLnwg' \
   -d '{
-  "correo": "admin@gc.com",
-  "pwd_hash": "adminpass123"
+  "id_proveedor": "102",
+  "telefono": "1234567"
 }'
 ```
 ## Estructura http ()
