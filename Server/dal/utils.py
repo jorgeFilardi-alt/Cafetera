@@ -62,9 +62,3 @@ def to_tb_cols(model):
     atts = list(model.model_fields.keys())
     return ", ".join(f"{san(att)}" for att in atts)
 
-def to_entry(entry):
-    """
-    Devolver valores del modelo (CREATE: )
-    """
-    vals = list(entry.dict().values())
-    return ", ".join(f"'{san(val)}'" for val in vals)
