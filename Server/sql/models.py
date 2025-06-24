@@ -1,6 +1,7 @@
 """
 Type safe client schema models
 Simplifica uso dentro del programa a traves de tipados @dataclass
+Debe: [0] primer elemento ser la primary key (depende en curd.create / update)
 TODO: auto-generate script (basade en schema.sql)
 """
 from pydantic import BaseModel

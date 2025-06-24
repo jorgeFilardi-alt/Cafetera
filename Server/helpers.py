@@ -1,15 +1,20 @@
 """
-
+Utilidades (no especificas a bases de datos)
 """
-
-
-# ts Required eqvialent fo pydantic
 from pydantic import create_model
-from sql.models import Proveedor
 
-# All fields required
-fields = {name: (field.annotation, ...) for name, field in Proveedor.model_fields.items()}
-# ProveedorRequired = create_model("ProveedorRequired", **fields)
-def Required():
-    return None
+def Required(model):
+    """
+    All fields required
+    nota: mas facil con pydantic que con dataclass
+    """
+    fields = {name: (field.annotation, ...) for name, field in model.model_fields.items()}
+    return create_model(f"{model}Required", **fields)
 
+# Not working & unused
+# def Optional(model):
+#     """
+#     Returns a new Pydantic model with all fields optional (by setting default to None).
+#     """
+#     fields = {name: (field.annotation, None) for name, field in model.model_fields.items()}
+#     return create_model(f"{model.__name__}Optional", **fields)
