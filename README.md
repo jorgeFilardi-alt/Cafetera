@@ -1,25 +1,191 @@
 # Cafetera
+Descripcion...
+Obligatorio, equipo, etc
+
+## Inicializacion completa
+Extractos de todas las secciones
+### Front End
+```bash
+# Terminal 1 (frontend)
+npm run dev
+```
+### Back End
+```bash
+# Terminal 2 (mysql)
+cd Server/sql
+docker-compose up -d 
+```
+```bash
+# Terminal 3 (api, endpoint)
+cd Server
+source venv/bin/activate
+python sql/populate.py 1
+uvicorn main:app --reload
+```
+[Backend (python + fastapi)](#inicializacion-backend)
 
 ## Requirements:
 
+# Client (React + Vite)
 
-## Client (React + Vite)
-
-### How to run:
+## Inicializacion Frontend
 
 - npm i to install dependencies
 - npm run dev
 - Go to ´http://localhost:3000´
 
-## Server (Python + FastAPI)
+# Server (Python + FastAPI)
+Mencion a decisiones, etc, consideraciones ...
+Toda ejecucion en Server, considerada dentro de la carpeta Server `cd Server`
 
-### How to run:
+## Inicializacion Backend
+```bash
+cd Server
+source venv/bin/activate
+# fastapi => uvicorn
+uvicorn main:app --reload
+# Instancia docker de mysql
+cd sql
+docker-compose up -d # off: ...ose down
+```
+Go to ´http://127.0.0.1:8000/docs#/´ to see swagger and specification of the endpoinds.
 
-- Create a venv with ´python -m venv venv´ (This will create a virtual enviroment for the project)
-- Activate the venv with ´.\venv\Scripts\activate.bat´
-- Install dependencies ´pip install -r requirement.txt´
-- Run api with ´uvicorn main:app --reload´
-- Go to ´http://127.0.0.1:8000/docs#/´ to see swagger and specification of the endpoinds.
+## Dependencias:
+Utilizamos fastapi, uvicorn para ejecutar una instancia, docker-compose para mysql local.
 
+Python y venv (enviroment context)
+### Instalacion
 
-## Gerneral Architecture Diagram:
+```bash
+# Crear python venv (This will create a virtual enviroment for the project)
+python -m venv venv
+
+# Activate the venv (exit: `deactivate`)
+source venv/bin/activate
+
+# Instalar dependencias
+pip install -r requirements.txt
+```
+
+## MySQL
+
+Compartir servidor, podriamos usar docker (la entrega no especifica). Por simplicidad, correra todo localmente (requiriendo una instancia de mysql con las mismas caracteristicas). 
+
+### Requisitos:
+
+- Instancia MySQL en `127.0.0.1` ([docker-compose](#instalacion-docker-compose))
+- Base de datos `gestion_comercial`
+- Usuario de mysql `root`, pwd `root`
+- Dependencias del repo (pip, ...)
+
+### Instalacion Ubuntu
+
+```bash
+sudo apt update
+sudo apt install mysql-server
+
+# Iniciar
+sudo systemctl start mysql
+sudo systemctl enable mysql
+```
+### Instalacion Docker Compose
+```bash
+# Instalar Docker (final: reiniciar terminal)
+sudo apt install docker.io -y # Instalar Docker
+sudo apt install docker-compose -y # Instalar Docker Compose
+sudo usermod -aG docker ${USER} # Anadir al grupo de docker
+
+# Init
+docker-compose up -d
+```
+
+### Generar Datos de prueba
+
+Generar script (ejecutando linea por linea de los archivos .sql)
+```bash
+cd Server
+source venv/bin/activate
+python sql/populate.py 2 # arg `2` = Reset
+```
+
+Entrar a mysql en docker-compose
+```bash
+# Entrar a dcoker-compose
+docker exec -it mysql-server bash
+
+# mysql Shell (pwd: `root`)
+mysql -u root -p
+```
+
+POST request con autenticacion:
+```bash
+curl -X 'POST' \
+  'http://localhost:8000/login-test' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "correo": "admin@gc.com",
+  "pwd_hash": "adminpass123"
+}'
+```
+## Creaer Variables de entorno
+Para protejer los datos de nuestros usuarios debemos protejer nuestras claves privadas, de esta manera verificar la firma del payload mandado por el usuario.
+```bash
+echo -e 'JWT_SECRET="si_no_si_si"\nJWT_ALGORITHM="HS256"\nJWT_EXPIRATION=60 * 60 * 12' > .env
+```
+### Type-safe client (schema models)
+
+Tipamos nuestro esquema de datos a `@dataclass`
+
+## DAL layer (auth y sanitize statements)
+
+### POST requests de ejemplo, autenticacion:
+
+```bash
+# Ruta normal
+
+curl -X 'GET' \
+  'http://localhost:8000/cliente?id_cliente=201' \
+  -H 'Content-Type: application/json' \
+
+# Registrar usuario
+
+curl -X 'POST'   'http://localhost:8000/register'   -H 'Content-Type: application/json'   -d '{
+  "correo": "admin10@gc.com",
+  "pwd_hash": "adminpass123"
+}'
+
+# Generar token de autenticacion para usuario
+
+curl -X 'POST' \
+  'http://localhost:8000/login' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "correo": "admin@gc.com",
+  "pwd_hash": "adminpass123"
+}'
+
+# Ruta autenticada requiere Bearer (JWT en Headers)
+
+curl -X 'PUT' \
+  'http://localhost:8000/proveedor' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb3JyZW8iOiJhZG1pbkBnYy5jb20iLCJlc19hZG1pbmlzdHJhZG9yIjoxLCJleHBpcmVzIjoxNzUwODEzOTQ3LjM2NjQzNX0.rWFlzB5a47vbB5UamCULnuaiF1ilLb_YB4-VL1hLnwg' \
+  -d '{
+  "id_proveedor": "102",
+  "telefono": "1234567"
+}'
+```
+## Estructura http ()
+Peticiones / metodos web dentro del protocolo http: `GET`, `POST`, `PUT`, `PATCH`, `DELETE`. Sus estructura esperadas, de la response y request.
+
+### PUT (Updates)
+
+Si exitoso, responde con el recurso actualizado.
+
+En fallo, responde con error.
+
+# Bibliografia
+
+TODO: citar comandos? fastapi docs
+pydantic, basemodel?? / REEMPLZADO con dataclass
+HTTPException, fastapi (parametros etc)

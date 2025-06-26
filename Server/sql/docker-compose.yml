@@ -1,0 +1,39 @@
+# uso de base de datos gestion_comercial en docker-compose
+# pip install mysql-connector-python
+
+# Versión del formato del archivo docker-compose
+version: '3.8'
+
+# Definición de los servicios (contenedores)
+services:
+  # Nombre de nuestro servicio de base de datos
+  mysql-db:
+    # Usamos la imagen oficial de MySQL, especificando una versión para consistencia
+    image: mysql:8.0
+
+    # Nombre que le daremos al contenedor para identificarlo fácilmente
+    container_name: mysql-server
+
+    # Reiniciar siempre el contenedor si se detiene, a menos que lo detengamos nosotros
+    restart: always
+
+    # Variables de entorno para configurar MySQL al iniciar
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_DATABASE: 'gestion_comercial' # Crea esta base de datos al iniciar
+      MYSQL_USER: 'user' # Crea un usuario específico para tu aplicación
+      MYSQL_PASSWORD: 'root'
+
+    # Mapeo de puertos. Expone el puerto 3306 del contenedor al puerto 3306 de tu máquina (Ubuntu)
+    # Formato: <PUERTO_HOST>:<PUERTO_CONTENEDOR>
+    ports:
+      - "3306:3306"
+
+    # Volúmenes para persistencia de datos.
+    # Esto asegura que tus datos no se borren si el contenedor se elimina o se recrea.
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+# Definición de los volúmenes nombrados
+volumes:
+  mysql-data:
