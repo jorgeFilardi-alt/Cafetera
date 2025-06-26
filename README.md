@@ -15,6 +15,7 @@ npm run dev
 cd Server/sql
 docker-compose up -d 
 ```
+[docker-compose setup](#instalacion-docker-compose)
 ```bash
 # Terminal 3 (api, endpoint)
 cd Server
@@ -147,6 +148,8 @@ curl -X 'GET' \
   'http://localhost:8000/cliente?id_cliente=201' \
   -H 'Content-Type: application/json' \
 
+```
+```bash
 # Registrar usuario
 
 curl -X 'POST'   'http://localhost:8000/register'   -H 'Content-Type: application/json'   -d '{
@@ -164,7 +167,10 @@ curl -X 'POST' \
   "pwd_hash": "adminpass123"
 }'
 
-# Ruta autenticada requiere Bearer (JWT en Headers)
+```
+
+Ruta autenticada requiere Bearer (JWT en Headers)
+```bash
 
 curl -X 'PUT' \
   'http://localhost:8000/proveedor' \
@@ -178,7 +184,7 @@ curl -X 'PUT' \
 ## Estructura http ()
 Peticiones / metodos web dentro del protocolo http: `GET`, `POST`, `PUT`, `PATCH`, `DELETE`. Sus estructura esperadas, de la response y request.
 
-### PUT (Updates)
+### PUT (Updates) / POST (CREATES)
 
 Si exitoso, responde con el recurso actualizado.
 
