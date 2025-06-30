@@ -7,7 +7,7 @@ uvicorn main:app --reload
 from fastapi import FastAPI, Request # pip install fastapi uvicorn
 from dataclasses import dataclass, asdict
 from exceptions import InternalException
-import dal.queries as queries # read?
+# import dal.queries as queries # read?
 import dal.crud as crud
 import dal.auth as auth
 import sql.models as models
@@ -45,8 +45,8 @@ def custom_openapi():
 
 app.openapi = custom_openapi
 
-# app.middleware("http")(middleware.access)
-# app.middleware("http")(middleware.exceptions)
+app.middleware("http")(middleware.access)
+app.middleware("http")(middleware.exceptions)
 
 @app.get("/clientes")
 async def clientes(req: Request):
