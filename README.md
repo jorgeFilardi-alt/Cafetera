@@ -106,6 +106,11 @@ Generar script (ejecutando linea por linea de los archivos .sql)
 cd Server
 source venv/bin/activate
 python sql/populate.py 2 # arg `2` = Reset
+
+# En CMD:
+cd Server
+venv\Scripts\activate.bat
+
 ```
 
 Entrar a mysql en docker-compose
@@ -143,9 +148,7 @@ Tipamos nuestro esquema de datos a `@dataclass`
 ```bash
 # Ruta normal
 
-curl -X 'GET' \
-  'http://localhost:8000/cliente?id_cliente=201' \
-  -H 'Content-Type: application/json' \
+curl -X 'GET' 'http://localhost:8000/cliente?id_cliente=201' -H 'Content-Type: application/json' 
 
 # Registrar usuario
 
