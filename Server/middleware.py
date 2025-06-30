@@ -8,13 +8,14 @@ from exceptions import InternalException
 import dal.auth as auth
 
 # Defecto: todo privado
-API_PUBLIC_PATHS = ["/login", "/register", "/docs", "/tecnicos", "/tecnico"] 
+API_PUBLIC_PATHS = ["/login", "/register", "/docs", "/tecnicos", "/tecnico","/openapi.json"] 
 
 async def access(req: Request, next):
     """
     Access control middleware
     Verifica acceso para toda ruta no publica
     """
+    
     if req.url.path not in API_PUBLIC_PATHS:
         token = req.headers.get("Authorization")
         req.state.user = auth.verify(token) # Autenticar con JWT

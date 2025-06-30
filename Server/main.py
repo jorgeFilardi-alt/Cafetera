@@ -3,6 +3,7 @@ API server - FastAPI (Backend entry point)
 
 uvicorn main:app --reload
 """
+
 from fastapi import FastAPI, Request # pip install fastapi uvicorn
 from dataclasses import dataclass, asdict
 from exceptions import InternalException
@@ -12,11 +13,40 @@ import dal.auth as auth
 import sql.models as models
 import middleware # mdlwr
 import helpers
+from dal.utils import db_cursor
+from fastapi.security import OAuth2PasswordBearer
+from fastapi.openapi.utils import get_openapi
 
 app = FastAPI()
 
-app.middleware("http")(middleware.access)
-app.middleware("http")(middleware.exceptions)
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+def custom_openapi():
+    if app.openapi_schema:
+        return app.openapi_schema
+    openapi_schema = get_openapi(
+        title="My API",
+        version="1.0.0",
+        description="API with Bearer Auth",
+        routes=app.routes,
+    )
+    openapi_schema["components"]["securitySchemes"] = {
+        "BearerAuth": {
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT",
+        }
+    }
+    for path in openapi_schema["paths"].values():
+        for operation in path.values():
+            operation["security"] = [{"BearerAuth": []}]
+    app.openapi_schema = openapi_schema
+    return app.openapi_schema
+
+app.openapi = custom_openapi
+
+# app.middleware("http")(middleware.access)
+# app.middleware("http")(middleware.exceptions)
 
 @app.get("/clientes")
 async def clientes(req: Request):
@@ -68,3 +98,8 @@ async def login(req: models.Login):
 async def register(req: Request, entry: models.Login):
     entry = models.Login(correo=entry.correo, pwd_hash=auth.get_creds("", entry.pwd_hash))
     return crud.create("login", entry)
+
+@app.get("/reporte")
+async def reporte(req: Request):
+    results = []
+    return results
