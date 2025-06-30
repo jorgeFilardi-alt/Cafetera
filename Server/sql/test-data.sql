@@ -8,6 +8,7 @@ USE gestion_comercial;
 -- Contraseñas de ejemplo. En un sistema real, estas deberían estar hasheadas (ej: con bcrypt).
 INSERT IGNORE INTO login (correo, pwd_hash, es_administrador) VALUES
 ('admin@gc.com', 'adminpass123', TRUE),
+('mati@ge.io', 'contradelmati', TRUE),
 ('juan.p@gc.com', 'juanperezpass', FALSE),
 ('maria.r@gc.com', 'mariarodriguezpass', FALSE),
 ('carlos.g@gc.com', 'carlosgonzalezpass', FALSE),

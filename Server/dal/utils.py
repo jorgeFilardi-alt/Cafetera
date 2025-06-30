@@ -17,10 +17,11 @@ def db_cursor(crud_op, op = "READ"):
     """
     conexion = mysql.connector.connect(
         host='127.0.0.1',
-        user=DB_USERS[op]["user"],
-        password=DB_USERS[op]["password"],
+        user="root",
+        password="root",
         database='gestion_comercial',
-        auth_plugin='mysql_native_password'
+        auth_plugin='mysql_native_password',
+        port=3307
     )
     cursor = conexion.cursor()
     try:

@@ -27,7 +27,7 @@ services:
     # Mapeo de puertos. Expone el puerto 3306 del contenedor al puerto 3306 de tu máquina (Ubuntu)
     # Formato: <PUERTO_HOST>:<PUERTO_CONTENEDOR>
     ports:
-      - "3306:3306"
+      - "3307:3306"
 
     # Volúmenes para persistencia de datos.
     # Esto asegura que tus datos no se borren si el contenedor se elimina o se recrea.

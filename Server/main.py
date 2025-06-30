@@ -45,8 +45,8 @@ def custom_openapi():
 
 app.openapi = custom_openapi
 
-# app.middleware("http")(middleware.access)
-# app.middleware("http")(middleware.exceptions)
+app.middleware("http")(middleware.access)
+app.middleware("http")(middleware.exceptions)
 
 @app.get("/clientes")
 async def clientes(req: Request):
