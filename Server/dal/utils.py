@@ -20,7 +20,8 @@ def db_cursor(crud_op, op = "READ"):
         user=DB_USERS[op]["user"],
         password=DB_USERS[op]["password"],
         database='gestion_comercial',
-        auth_plugin='mysql_native_password'
+        auth_plugin='mysql_native_password',
+        port=3307
     )
     cursor = conexion.cursor()
     try:
