@@ -20,7 +20,7 @@ docker-compose up -d
 # Terminal 3 (api, endpoint)
 cd Server
 source venv/bin/activate
-python sql/populate.py 1
+python sql/populate.py 2
 uvicorn main:app --reload
 ```
 [Backend (python + fastapi)](#inicializacion-backend)
@@ -175,7 +175,7 @@ Ruta autenticada requiere Bearer (JWT en Headers)
 curl -X 'PUT' \
   'http://localhost:8000/proveedor' \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb3JyZW8iOiJhZG1pbkBnYy5jb20iLCJlc19hZG1pbmlzdHJhZG9yIjoxLCJleHBpcmVzIjoxNzUwODEzOTQ3LjM2NjQzNX0.rWFlzB5a47vbB5UamCULnuaiF1ilLb_YB4-VL1hLnwg' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb3JyZW8iOiJhZG1pbkBnYy5jb20iLCJlc19hZG1pbmlzdHJhZG9yIjoxLCJleHBpcmVzIjoxNzUxMDA0OTMyLjU3NDc3OX0.uwXAsU03_XhfXjVfCfo6MGe7TICAHNEaI2WRZm33QA8' \
   -d '{
   "id_proveedor": "102",
   "telefono": "1234567"
