@@ -13,10 +13,10 @@ Ejecutar sql statements en schema.sql & test-data.sql
 `override`: 0 = no override, 1 = override, 2 = full reset
 """
 def populate(override = 0):
-    usrs = utils.get_statements("sql/init.sql")
-    rst = utils.get_statements("sql/reset.sql") if int(override) >= 2 else []
-    tbs = utils.get_statements("sql/schema.sql") if int(override) >= 1 else []
-    pops = utils.get_statements("sql/test-data.sql") 
+    usrs = utils.file_stmts("../sql/init.sql")
+    rst = utils.file_stmts("../sql/reset.sql") if int(override) >= 2 else []
+    tbs = utils.file_stmts("../sql/schema.sql") if int(override) >= 1 else []
+    pops = utils.file_stmts("../sql/test-data.sql") 
 
     def insert(cursor):
         for idx, stmt in enumerate(usrs + rst + tbs + pops):
