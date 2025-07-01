@@ -49,28 +49,28 @@ async def reporte_clientes():
     Reporte 5.1: total mensual a cobrar a cada cliente
     suma alquileres de maquinas mas costo insumos cosnumidos
     """
-    return crud.sql_file("queries/clientes")
+    return crud.sql_file("queries/clientes.sql")
 
 @app.get("/reporte-consumos")
 async def reporte_consumos():
     """
     Reporte 5.2: consumo de insumos con precio
     """
-    return crud.sql_file("queries/consumos")
+    return crud.sql_file("queries/consumos.sql")
 
 @app.get("/reporte-mantenimientos")
 async def reporte_mantenimientos():
     """
     Reporte 5.3: tecnicos con mas mantenimientos
     """
-    return crud.sql_file("queries/mantenimientos")
+    return crud.sql_file("queries/mantenimientos.sql")
 
 @app.get("/reporte-maquinas")
 async def reporte_maquinas():
     """
     Reporte 5.4: clientes con mas maquinas
     """
-    return crud.sql_file("queries/maquinas")
+    return crud.sql_file("queries/maquinas.sql")
 
 # SQL Table endpoints
 
