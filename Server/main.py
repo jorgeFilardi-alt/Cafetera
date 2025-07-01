@@ -92,18 +92,22 @@ async def insumos():
 
 # SQL Entry endpoints
 
-@app.get("/cliente/{uId}") # singular, ej. GET localhost:8000/cliente?id_cliente=201
+# Ej.: GET localhost:8000/cliente/201
+@app.get("/cliente/{uId}") 
 async def cliente(uId: int | str):
     return crud.get_entry("clientes", "id_cliente", uId)
 
-@app.get("/proveedor/{uId}") # singular, ej. GET localhost:8000/proveedor?id_proveedor=101
+# Ej.: GET localhost:8000/proveedor/101
+@app.get("/proveedor/{uId}") 
 async def proveedor(uId: int | str):
     return crud.get_entry("proveedores", "id_proveedor", uId)
 
-@app.get("/tecnico/{uId}") # singular, ej. GET localhost:8000/tecnico?ci=45556667
+# Ej.: GET localhost:8000/tecnico/45556667
+@app.get("/tecnico/{uId}") 
 async def tecnico(uId: int | str):
     return crud.get_entry("tecnicos", "ci", uId)
 
-@app.get("/insumo/{uId}") # singular, ej. GET localhost:8000/insumo?id_insumo=1
+# Ej.: GET localhost:8000/insumo/1
+@app.get("/insumo/{uId}") 
 async def insumo(uId: int | str):
     return crud.get_entry("insumos", "id_insumo", uId)
