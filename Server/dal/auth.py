@@ -59,8 +59,11 @@ def verify(token):
     if not token or len(token) == 0:
         raise InternalException("Token no proporcionado o inválido.", 401, f"Sin token: {token}:", "auth.verify")
 
-    payload = jwt.decode(token[7:], os.getenv("JWT_SECRET", "jwt_pwd"), algorithms=[os.getenv("JWT_ALGORITHM")])
-    latest_user = crud.get_entry("login", "correo", payload.get("correo")) # update payload
+    try: 
+        payload = jwt.decode(token[7:], os.getenv("JWT_SECRET", "jwt_pwd"), algorithms=[os.getenv("JWT_ALGORITHM")])
+        latest_user = crud.get_entry("login", "correo", payload.get("correo")) # update payload
+    except Exception as e:
+        raise InternalException("Token incorrecto, re-inicie sesion.", 401, f"Token expirado para {token}:", "auth.verify")
     
     if not latest_user or len(latest_user) == 0:
         raise InternalException(f"Usuario {payload.get("correo")} no existe o jwt desactualizado.", 400, f"Error al autenticar token, usuaria <=> payload de {payload.get("correo")}:", "auth.verify")
