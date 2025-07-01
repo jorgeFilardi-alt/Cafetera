@@ -13,7 +13,7 @@ import dal.auth as auth # autenticacion
 import dal.crud as crud # SQL ops
 
 app = FastAPI()
-# /docs -H Authorization (button)
+# /docs swagger ui + -H Authorization (button)
 app.openapi = lambda: custom_openapi.custom(app)
 app.middleware("http")(middleware.access)
 app.middleware("http")(middleware.exceptions)

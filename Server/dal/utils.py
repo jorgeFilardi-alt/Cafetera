@@ -74,4 +74,3 @@ def file_stmts(path: str):
         # if stmt and not stmt.startswith('--') and not stmt.startswith('/*'):
         stmts.append(stmt)
     return stmts
-
