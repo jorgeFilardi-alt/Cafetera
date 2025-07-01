@@ -1,9 +1,9 @@
-# Cafetera
+# Cafeteras Marloy
 Descripcion...
 Obligatorio, equipo, etc
 
-## Inicializacion completa
-Extractos de todas las secciones
+## Inicializacion Rapida
+Extractos de todas las secciones, requisito previos: [Instalacion Backend](#instalacion), Instalacion Front End
 ### Front End
 ```bash
 # Terminal 1 (frontend)
@@ -25,9 +25,8 @@ uvicorn main:app --reload
 ```
 [Backend (python + fastapi)](#inicializacion-backend)
 
-## Requirements:
-
 # Client (React + Vite)
+Decidimos react + vite
 
 ## Inicializacion Frontend
 
@@ -37,82 +36,71 @@ uvicorn main:app --reload
 
 # Server (Python + FastAPI)
 Mencion a decisiones, etc, consideraciones ...
-Toda ejecucion en Server, considerada dentro de la carpeta Server `cd Server`
 
-## Inicializacion Backend
-```bash
-cd Server
-source venv/bin/activate
-# fastapi => uvicorn
-uvicorn main:app --reload
-# Instancia docker de mysql
-cd sql
-docker-compose up -d # off: ...ose down
-```
-Go to ´http://127.0.0.1:8000/docs#/´ to see swagger and specification of the endpoinds.
-
-## Dependencias:
+## **Dependencias:**
 Utilizamos fastapi, uvicorn para ejecutar una instancia, docker-compose para mysql local.
 
-Python y venv (enviroment context)
-### Instalacion
+#### Estructura http () + fastapi uvicorn
+Peticiones / metodos web dentro del protocolo http: `GET`, `POST`, `PUT`, `PATCH`, `DELETE`. Sus estructura esperadas, de la response y request.
 
-```bash
-# Crear python venv (This will create a virtual enviroment for the project)
-python -m venv venv
+PUT (Updates) / POST (CREATES)
+Si exitoso, responde con el recurso actualizado.
+En fallo, responde con error.
 
-# Activate the venv (exit: `deactivate`)
-source venv/bin/activate
+### Python mySQL
+Requisitos parte de propuesta obligatorio. Condiciones, instancia MySQL en `127.0.0.1` ([docker-compose](#instalacion-docker-compose)), usuario de mysql `root`, pwd `root` (acceso total), puerto mapeado a mquina local `-p 3307` (no 3306).
 
-# Instalar dependencias
-pip install -r requirements.txt
-```
+Type-safe client (schema models) Tipamos nuestro esquema de datos a `@dataclass`.
 
-## MySQL
-
+### Docker Compose
 Compartir servidor, podriamos usar docker (la entrega no especifica). Por simplicidad, correra todo localmente (requiriendo una instancia de mysql con las mismas caracteristicas). 
 
-### Requisitos:
+### JWT vEnv
+Para protejer los datos de nuestros usuarios debemos protejer nuestras claves privadas, de esta manera verificar la firma del payload mandado por el usuario.
 
-- Instancia MySQL en `127.0.0.1` ([docker-compose](#instalacion-docker-compose))
-- Base de datos `gestion_comercial`
-- Usuario de mysql `root`, pwd `root`
-- Dependencias del repo (pip, ...)
+Agregamos venv (enviroment context) asegurar configuracion interna privada.
 
-### Instalacion Ubuntu
+## **Instalacion:**
+Dentro del contexto de ejecucion `./Server` (definimos pasos de instalacion). Utilizamos version de **python 3.13+** (syntaxis en codebase). Generamos la base de datos con  `populate.py` (ejecutando linea por linea de los archivos .sql)
 
+### Ubuntu
 ```bash
-sudo apt update
-sudo apt install mysql-server
+# 1 Contenedor mySQL
 
-# Iniciar
-sudo systemctl start mysql
-sudo systemctl enable mysql
-```
-### Instalacion Docker Compose
-```bash
-# Instalar Docker (final: reiniciar terminal)
-sudo apt install docker.io -y # Instalar Docker
-sudo apt install docker-compose -y # Instalar Docker Compose
-sudo usermod -aG docker ${USER} # Anadir al grupo de docker
+sudo apt install docker.io -y
+sudo apt install docker-compose -y
+sudo usermod -aG docker ${USER} # privilegios USER
+# Reinciar terminal
 
-# Init
+cd sql
 docker-compose up -d
-```
 
-### Generar Datos de prueba
+# 2 Entorno python
 
-Generar script (ejecutando linea por linea de los archivos .sql)
-```bash
-cd Server
+python3.13 -m venv venv
+# Activar entorno
 source venv/bin/activate
-python sql/populate.py 2 # arg `2` = Reset
+# Instalar dependencias
+pip install -r requirements.txt
 
-# En CMD:
-cd Server
-venv\Scripts\activate.bat
+# 3 Popular db con datos de prueba
+
+python3.13 sql/populate.py 2 # arg `2` = Reset
 
 ```
+> Debian - 25.04 (Plucky Puffin)
+
+### MacOs
+```bash
+# 1 Contenedor mySQL
+brew install docker docker-compose
+```
+> Sequoia - 15.2
+
+### Windows
+
+
+## **2. Testing:**
 
 Entrar a mysql en docker-compose
 ```bash
@@ -133,23 +121,15 @@ curl -X 'POST' \
   "pwd_hash": "adminpass123"
 }'
 ```
-## Creaer Variables de entorno
-Para protejer los datos de nuestros usuarios debemos protejer nuestras claves privadas, de esta manera verificar la firma del payload mandado por el usuario.
-```bash
-echo -e 'JWT_SECRET="si_no_si_si"\nJWT_ALGORITHM="HS256"\nJWT_EXPIRATION=60 * 60 * 12' > .env
-```
-### Type-safe client (schema models)
-
-Tipamos nuestro esquema de datos a `@dataclass`
-
-## DAL layer (auth y sanitize statements)
 
 ### POST requests de ejemplo, autenticacion:
 
 ```bash
 # Ruta normal
 
-curl -X 'GET' 'http://localhost:8000/cliente?id_cliente=201' -H 'Content-Type: application/json' 
+curl -X 'GET' \
+  'http://localhost:8000/cliente?id_cliente=201' \
+  -H 'Content-Type: application/json' \
 
 ```
 ```bash
@@ -184,14 +164,6 @@ curl -X 'PUT' \
   "telefono": "1234567"
 }'
 ```
-## Estructura http ()
-Peticiones / metodos web dentro del protocolo http: `GET`, `POST`, `PUT`, `PATCH`, `DELETE`. Sus estructura esperadas, de la response y request.
-
-### PUT (Updates) / POST (CREATES)
-
-Si exitoso, responde con el recurso actualizado.
-
-En fallo, responde con error.
 
 # Bibliografia
 
