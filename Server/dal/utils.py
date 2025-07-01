@@ -1,7 +1,6 @@
 """
 Utilidades para la aplicacion de gestion comercial backend
 """
-
 import mysql.connector #pip install mysql-connector-python
 
 DB_USERS = {
@@ -62,4 +61,17 @@ def to_tb_cols(model):
     """
     atts = list(model.model_fields.keys())
     return ", ".join(f"{san(att)}" for att in atts)
+
+"""
+Devolver lista de statments para archivo sql
+"""
+def get_statements(path: str):
+    stmts = []
+    with open(path, "r", encoding="utf-8") as f:
+        sql_commands = f.read()
+    for statement in sql_commands.split(";"):
+        stmt = statement.strip()
+        # if stmt and not stmt.startswith('--') and not stmt.startswith('/*'):
+        stmts.append(stmt)
+    return stmts
 

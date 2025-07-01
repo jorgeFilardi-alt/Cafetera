@@ -82,3 +82,19 @@ def update(table: str, full_entry):
     return get_entry(table, uIdCol, uIdVal)
 
 # Delete
+
+# Files
+
+def sql_file(path: str):
+    """
+    Para .sql con statements (stmts), ejecutar
+    devuelve resultados del cursor
+    """
+    def query(cursor):
+        results = []
+        cursor.execute(utils.get_statements(path))
+        for row in cursor:
+            results.append(row)
+        return results
+
+    return utils.db_cursor(query)
