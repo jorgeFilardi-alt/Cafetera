@@ -92,7 +92,7 @@ def sql_file(path: str):
     """
     def query(cursor):
         results = []
-        cursor.execute(utils.get_statements(path))
+        cursor.execute(utils.file_stmts(path))
         for row in cursor:
             results.append(row)
         return results

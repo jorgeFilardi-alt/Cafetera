@@ -65,7 +65,7 @@ def to_tb_cols(model):
 """
 Devolver lista de statments para archivo sql
 """
-def get_statements(path: str):
+def file_stmts(path: str):
     stmts = []
     with open(path, "r", encoding="utf-8") as f:
         sql_commands = f.read()
