@@ -55,7 +55,7 @@ Agregamos venv (enviroment context) asegurar configuracion interna privada no se
 
 Type-safe client (schema models) Tipamos nuestro esquema de datos con `pydantic`, consideramos tiene mejores metodos que una de sus alternativas: `@dataclass` (modificar estructuras, convertir a parametros opcionales o todos requeridos).
 
-## Estructura Respuesta HTTP
+### Estructura Respuesta HTTP
 Peticiones / metodos web dentro del protocolo http: `GET`, `POST`, `PUT`, `PATCH`, `DELETE`. Sus estructura esperadas, de la response y request.
 
 GET (Queries) / PUT (Updates) / POST (CREATES)
