@@ -65,12 +65,13 @@ Dentro del contexto de ejecucion `./Server` (definimos pasos de instalacion). Ut
 
 ### Ubuntu
 ```bash
-# 1 Contenedor mySQL
-
+# Instalar docker
 sudo apt install docker.io -y
 sudo apt install docker-compose -y
 sudo usermod -aG docker ${USER} # privilegios USER
 # Reinciar terminal
+
+# 1 Contenedor mySQL
 
 cd sql
 docker-compose up -d
@@ -91,9 +92,28 @@ python3.13 sql/populate.py 2 # arg `2` = Reset
 > Debian - 25.04 (Plucky Puffin)
 
 ### MacOs
+Requisitos previos:
+- Instalar [Docker Desktop](https://docs.docker.com/desktop/setup/install/mac-install/)
+- python (v3.13) (dentro de venv usar `python` no `python3`)
+
 ```bash
 # 1 Contenedor mySQL
-brew install docker docker-compose
+
+cd sql
+docker-compose up -d
+
+# 2 Entorno python
+
+python3 -m venv venv
+# Activar entorno
+source venv/bin/activate
+# Instalar dependencias
+pip install -r requirements.txt
+
+# 3 Popular db con datos de prueba
+
+cd sql
+python populate.py 2 
 ```
 > Sequoia - 15.2
 
