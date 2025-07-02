@@ -1,31 +1,28 @@
 # Cafeteras Marloy
-Descripcion...
-Obligatorio, equipo, etc
+
+> La empresa “Cafés Marloy” planea implementar un sistema administrativo para gestionar
+sus máquinas expendedoras de café distribuidas en distintos clientes, así como el control de
+insumos, proveedores, técnicos y consumos.
 
 ## Inicializacion Rapida
 Extractos de todas las secciones, requisito previos: [Instalacion Backend](#instalacion), Instalacion Front End
-### Front End
+
 ```bash
 # Terminal 1 (frontend)
+cd Client
 npm run dev
 ```
-### Back End
+
+Asumiendo contenedor `mysql-server` ejecutandose de fondo [docker-compose](#ubuntu)
 ```bash
-# Terminal 2 (mysql)
-cd Server/sql
-docker-compose up -d 
-```
-[docker-compose setup](#instalacion-docker-compose)
-```bash
-# Terminal 3 (api, endpoint)
+# Terminal 2 (backend: api)
 cd Server
 source venv/bin/activate
-python sql/populate.py 2
 uvicorn main:app --reload
 ```
 [Backend (python + fastapi)](#inicializacion-backend)
 
-# Client (React + Vite)
+# Frontend <small>(React + Vite)</small>
 Decidimos react + vite
 
 ## Inicializacion Frontend
@@ -34,7 +31,7 @@ Decidimos react + vite
 - npm run dev
 - Go to ´http://localhost:3000´
 
-# Server (Python + FastAPI)
+# Backend <small>(Python + FastAPI)</small>
 Mencion a decisiones, etc, consideraciones ...
 
 ## **Dependencias:**
@@ -65,12 +62,13 @@ Dentro del contexto de ejecucion `./Server` (definimos pasos de instalacion). Ut
 
 ### Ubuntu
 ```bash
-# Instalar docker
+# Instalar docker (reiniciar terminal)
 sudo apt install docker.io -y
 sudo apt install docker-compose -y
-sudo usermod -aG docker ${USER} # privilegios USER
-# Reinciar terminal
+sudo usermod -aG docker ${USER}
+```
 
+```bash
 # 1 Contenedor mySQL
 
 cd sql
@@ -79,9 +77,7 @@ docker-compose up -d
 # 2 Entorno python
 
 python3.13 -m venv venv
-# Activar entorno
 source venv/bin/activate
-# Instalar dependencias
 pip install -r requirements.txt
 
 # 3 Popular db con datos de prueba
@@ -105,9 +101,7 @@ docker-compose up -d
 # 2 Entorno python
 
 python3 -m venv venv
-# Activar entorno
 source venv/bin/activate
-# Instalar dependencias
 pip install -r requirements.txt
 
 # 3 Popular db con datos de prueba
@@ -138,10 +132,11 @@ pip install -r requirements.txt
 cd sql
 python populate.py 2 
 ```
+> Windows 11 (2025)
 
-## **2. Testing:**
+## Verificar (comandos utiles)
 
-Entrar a mysql en docker-compose
+### MySQL docker-compose
 ```bash
 # Entrar a dcoker-compose
 docker exec -it mysql-server bash
@@ -149,62 +144,18 @@ docker exec -it mysql-server bash
 # mysql Shell (pwd: `root`)
 mysql -u root -p
 ```
+Ejecutamos comandos SQL, `USE gestion_comercial;` (previamente)
 
-POST request con autenticacion:
-```bash
-curl -X 'POST' \
-  'http://localhost:8000/login-test' \
-  -H 'Content-Type: application/json' \
-  -d '{
-  "correo": "admin@gc.com",
-  "pwd_hash": "adminpass123"
-}'
-```
+### Comunicacion con la API:
 
-### POST requests de ejemplo, autenticacion:
+1. Queries a rutas publicas [<small>Comandos CURL</small>](/Server/README.md#endpoints-publicos)
+2. Autenticar usuario, get token [<small>Comandos CURL</small>](/Server/README.md#autenticacion)
+3. Updates y rutas privadas [<small>Comandos CURL</small>](/Server/README.md#endpoints-privados)
 
-```bash
-# Ruta normal
+# Anexo
 
-curl -X 'GET' \
-  'http://localhost:8000/cliente?id_cliente=201' \
-  -H 'Content-Type: application/json' \
-
-```
-```bash
-# Registrar usuario
-
-curl -X 'POST'   'http://localhost:8000/register'   -H 'Content-Type: application/json'   -d '{
-  "correo": "admin10@gc.com",
-  "pwd_hash": "adminpass123"
-}'
-
-# Generar token de autenticacion para usuario
-
-curl -X 'POST' \
-  'http://localhost:8000/login' \
-  -H 'Content-Type: application/json' \
-  -d '{
-  "correo": "admin@gc.com",
-  "pwd_hash": "adminpass123"
-}'
-
-```
-
-Ruta autenticada requiere Bearer (JWT en Headers)
-```bash
-
-curl -X 'PUT' \
-  'http://localhost:8000/proveedor' \
-  -H 'Content-Type: application/json' \
-  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb3JyZW8iOiJhZG1pbkBnYy5jb20iLCJlc19hZG1pbmlzdHJhZG9yIjoxLCJleHBpcmVzIjoxNzUxMDA0OTMyLjU3NDc3OX0.uwXAsU03_XhfXjVfCfo6MGe7TICAHNEaI2WRZm33QA8' \
-  -d '{
-  "id_proveedor": "102",
-  "telefono": "1234567"
-}'
-```
-
-# Bibliografia
+- [Memoria]()
+- [Bitacora]()
 
 TODO: citar comandos? fastapi docs
 pydantic, basemodel?? / REEMPLZADO con dataclass
