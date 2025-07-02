@@ -118,7 +118,26 @@ python populate.py 2
 > Sequoia - 15.2
 
 ### Windows
+Requisitos previos:
+- Instalar [Docker Desktop](https://docs.docker.com/desktop/setup/install/windows-install/)
+- python (v3.13)
 
+```bash
+# 1 Contenedor mySQL
+
+cd sql
+docker-compose up -d
+
+# Crear entorno python
+python -m venv venv
+venv/Scripts/Activate.ps1
+pip install -r requirements.txt
+
+# 3 Popular db con datos de prueba
+
+cd sql
+python populate.py 2 
+```
 
 ## **2. Testing:**
 
