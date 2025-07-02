@@ -47,7 +47,7 @@ async def update_proveedor(req: Request, entry: models.Proveedor):
 async def reporte_clientes():
     """
     Reporte 5.1: total mensual a cobrar a cada cliente
-    suma alquileres de maquinas mas costo insumos cosnumidos
+    suma alquileres de maquinas mas costo insumos consumidos
     """
     return crud.sql_file("queries/clientes.sql")
 
