@@ -2,7 +2,7 @@
 
 > La empresa “Cafés Marloy” planea implementar un sistema administrativo para gestionar
 sus máquinas expendedoras de café distribuidas en distintos clientes, así como el control de
-insumos, proveedores, técnicos y consumos.
+insumos, proveedores, técnicos y consumos. [<small></small>](./Consigna.pdf)
 
 ## Inicializacion Rapida
 Extractos de todas las secciones, requisito previos: [Instalacion Backend](#instalacion), Instalacion Front End
