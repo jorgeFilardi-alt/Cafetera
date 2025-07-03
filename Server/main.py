@@ -26,8 +26,8 @@ async def login(req: models.Login):
     return payload # Devolver token JWT
 
 @app.post("/register")
-async def register(_, entry: models.Login):
-    entry = models.Login(correo=entry.correo, pwd_hash=auth.get_creds("", entry.pwd_hash))
+async def register(_: Request, body: models.Login):
+    entry = models.Login(correo=body.correo, pwd_hash=auth.get_creds("", body.pwd_hash))
     return crud.create("login", entry)
 
 # 1. ABM, Alta baja y modificacion
