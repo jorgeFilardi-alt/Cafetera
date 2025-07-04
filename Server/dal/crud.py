@@ -35,7 +35,7 @@ def get_table(table: str):
     results = []
     
     def op(cursor):
-        sql = f"SELECT * FROM gestion_comercial.{table}"
+        sql = f"SELECT * FROM gestion_comercial.{utils.san(table)}"
         cursor.execute(sql)
         for row in cursor:
             results.append(row)
@@ -72,7 +72,7 @@ def update(table: str, full_entry):
     uIdCol = list(full_entry.dict().keys())[0]    
     clause = utils.to_clause(full_entry.dict(exclude_none = True))
 
-    def op(cursor):
+    def op(cursor): 
         stmt = f"UPDATE {utils.san(table)} SET {clause} WHERE {utils.san(uIdCol)} = %s"
         cursor.execute(stmt, (uIdVal,))
     
@@ -82,3 +82,20 @@ def update(table: str, full_entry):
     return get_entry(table, uIdCol, uIdVal)
 
 # Delete
+
+# Files
+
+def sql_file(path: str):
+    """
+    Para .sql con statements (stmts), ejecutar
+    devuelve resultados del cursor
+    """
+    def query(cursor):
+        results = []
+        for stmt in utils.file_stmts(path):
+            cursor.execute(stmt)
+            for row in cursor:
+                results.append(row)
+        return results
+
+    return utils.db_cursor(query)

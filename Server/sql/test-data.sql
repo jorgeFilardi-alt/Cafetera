@@ -7,7 +7,11 @@ USE gestion_comercial;
 -- 1. Tabla: login
 -- Contraseñas de ejemplo. En un sistema real, estas deberían estar hasheadas (ej: con bcrypt).
 INSERT IGNORE INTO login (correo, pwd_hash, es_administrador) VALUES
-('admin@gc.com', 'adminpass123', TRUE),
+('admin@marloy.com', 'marloy1234', TRUE),
+('bruno@marloy.com', 'marloy1234', TRUE),
+('mati@marloy.com', 'brunocapo', TRUE),
+('jorge@marloy.com', 'brunocapo', TRUE),
+('pipe@marloy.com', 'brunocapo', TRUE), 
 ('juan.p@gc.com', 'juanperezpass', FALSE),
 ('maria.r@gc.com', 'mariarodriguezpass', FALSE),
 ('carlos.g@gc.com', 'carlosgonzalezpass', FALSE),
@@ -61,16 +65,15 @@ INSERT IGNORE INTO maquinas (id_maquina, modelo, id_cliente, dirección_cliente,
 (307, 'LatteMaster 500', 205, 'Av. Italia 2345, Sala Profesores', 6800);
 
 -- 7. Tabla: mantenimientos
-INSERT IGNORE INTO mantenimientos (id_mantenimiento, id_maquina, ci_tecnico, tipo, fecha, observarciones) VALUES
-(401, 301, 45556667, 'Preventivo', '2025-01-15', 'Limpieza general y descalcificación.'),
-(402, 303, 51112223, 'Correctivo', '2025-02-20', 'Se reemplazó la bomba de agua.'),
-(403, 302, 45556667, 'Instalación', '2025-03-01', 'Instalación y configuración inicial.'),
-(404, 305, 39998887, 'Preventivo', '2025-03-10', 'Revisión de molinillo y grupo de café.'),
-(405, 304, 51112223, 'Urgente', '2025-04-05', 'Fuga en manguera de vapor, se sustituyó.'),
-(406, 306, 48765432, 'Preventivo', '2025-04-22', 'Limpieza de conductos de leche.'),
-(407, 307, 45556667, 'Correctivo', '2025-05-18', 'El panel digital no respondía, se reinició.'),
-(408, 301, 39998887, 'Preventivo', '2025-06-12', 'Chequeo de presión y temperatura.');
-
+INSERT IGNORE INTO mantenimientos (id_mantenimiento, id_maquina, ci_tecnico, tipo, fecha, hora, observarciones) VALUES
+(401, 301, 45556667, 'Preventivo', '2025-01-15', '08:00:00', 'Limpieza general y descalcificación.'),
+(402, 303, 51112223, 'Correctivo', '2025-02-20', '14:30:00', 'Se reemplazó la bomba de agua.'),
+(403, 302, 45556667, 'Instalación', '2025-03-01', '10:00:00', 'Instalación y configuración inicial.'),
+(404, 305, 39998887, 'Preventivo', '2025-03-10', '11:15:00', 'Revisión de molinillo y grupo de café.'),
+(405, 304, 51112223, 'Urgente', '2025-04-05', '16:45:00', 'Fuga en manguera de vapor, se sustituyó.'),
+(406, 306, 48765432, 'Preventivo', '2025-04-22', '09:00:00', 'Limpieza de conductos de leche.'),
+(407, 307, 45556667, 'Correctivo', '2025-05-18', '13:00:00', 'El panel digital no respondía, se reinició.'),
+(408, 301, 39998887, 'Preventivo', '2025-06-12', '15:30:00', 'Chequeo de presión y temperatura.');
 -- 8. Tabla: registro_consumo
 -- Se generan múltiples registros de consumo para distintas maquinas e insumos a lo largo del tiempo.
 INSERT IGNORE INTO registro_consumo (id_consumo, id_maquina, id_insumo, fecha, cantidad_usada) VALUES

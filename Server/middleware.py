@@ -2,21 +2,28 @@
 Middleware - autorizacion con token y manejo de excepciones
 contexto, http: refiere a solicitudes no protocolo http/https
 """
+import re # Regex
 from fastapi import Request # pip install fastapi uvicorn
 from fastapi.responses import JSONResponse
 from exceptions import InternalException
 import dal.auth as auth
 
-# Defecto: todo privado
-API_PUBLIC_PATHS = ["/login", "/register", "/docs", "/tecnicos", "/tecnico","/openapi.json"] 
+# Regex (url path params ej. tecnico/{uId}) (rutas publicas)
+API_PUBLIC_PATHS = [
+    re.compile(r"^/docs$"),
+    re.compile(r"^/login$"),
+    re.compile(r"^/register$"),
+    re.compile(r"^/tecnicos$"),
+    re.compile(r"^/tecnico/\d+$"), # solo numeros
+    re.compile(r"^/openapi\.json$")
+]
 
 async def access(req: Request, next):
     """
     Access control middleware
     Verifica acceso para toda ruta no publica
     """
-    
-    if req.url.path not in API_PUBLIC_PATHS:
+    if not any(regex.match(req.url.path) for regex in API_PUBLIC_PATHS):
         token = req.headers.get("Authorization")
         req.state.user = auth.verify(token) # Autenticar con JWT
     return await next(req)
