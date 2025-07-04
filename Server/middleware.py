@@ -24,7 +24,6 @@ async def access(req: Request, next):
     Verifica acceso para toda ruta no publica
     """
     if not any(regex.match(req.url.path) for regex in API_PUBLIC_PATHS):
-        print("needd auth")
         token = req.headers.get("Authorization")
         req.state.user = auth.verify(token) # Autenticar con JWT
     return await next(req)
