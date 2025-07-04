@@ -59,19 +59,19 @@ async def update_tecnico(req: Request, entry: models.Tecnico):
     # Actualizar tecnico
     return crud.update("tecnicos", entry)
 
-@app.put("/insumo") # UPDATE proveedor
+@app.put("/insumo") # UPDATE insumo
 async def update_insumo(_: Request, entry: models.Insumo):
-    # Actualizar proveedor
+    # Actualizar insumo
     return crud.update("insumos", entry)
 
-@app.put("/cliente") # UPDATE proveedor
+@app.put("/cliente") # UPDATE cliente
 async def update_cliente(_: Request, entry: models.Cliente):
-    # Actualizar proveedor
+    # Actualizar cliente
     return crud.update("clientes", entry)
 
-@app.put("/mantenimiento") # UPDATE proveedor
+@app.put("/mantenimiento") # UPDATE mantenimiento
 async def update_mantenimiento(_: Request, entry: models.Mantenimiento):
-    # Actualizar proveedor
+    # Actualizar mantenimiento
     return crud.update("mantenimientos", entry)
 
 # 5. Consultas para reportes

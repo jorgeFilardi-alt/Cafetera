@@ -52,7 +52,7 @@ def to_clause(data):
     """
     python Dict to  sql SET clause
     """
-    return ", ".join(f"{san(key)} = {san(value)}" for key, value in data.items())
+    return ", ".join(f"{san(key)} = {f"'{san(value)}'" if type(value) == str else san(value)}" for key, value in data.items())
 
 def to_tb_cols(model):
     """
