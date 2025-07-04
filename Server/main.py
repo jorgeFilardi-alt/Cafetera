@@ -41,6 +41,39 @@ async def update_proveedor(req: Request, entry: models.Proveedor):
     # Actualizar proveedor
     return crud.update("proveedores", entry)
 
+@app.put("/maquina") # UPDATE maquina
+async def update_maquina(req: Request, entry: models.Maquina):
+    # Solo usuarios administradores
+    if not req.state.user.es_administrador:
+        raise InternalException("Operacion requiere rol de administrador.", 401, f"No admin en {req.path}, {entry}", "PUT:/maquina")
+    
+    # Actualizar maquina
+    return crud.update("maquinas", entry)
+
+@app.put("/tecnico") # UPDATE tecnico
+async def update_tecnico(req: Request, entry: models.Tecnico):
+    # Solo usuarios administradores
+    if not req.state.user.es_administrador:
+        raise InternalException("Operacion requiere rol de administrador.", 401, f"No admin en {req.path}, {entry}", "PUT:/tecnico")
+    
+    # Actualizar tecnico
+    return crud.update("tecnicos", entry)
+
+@app.put("/insumo") # UPDATE proveedor
+async def update_insumo(_: Request, entry: models.Insumo):
+    # Actualizar proveedor
+    return crud.update("insumos", entry)
+
+@app.put("/cliente") # UPDATE proveedor
+async def update_cliente(_: Request, entry: models.Cliente):
+    # Actualizar proveedor
+    return crud.update("clientes", entry)
+
+@app.put("/mantenimiento") # UPDATE proveedor
+async def update_mantenimiento(_: Request, entry: models.Mantenimiento):
+    # Actualizar proveedor
+    return crud.update("mantenimientos", entry)
+
 # 5. Consultas para reportes
 
 @app.get("/reporte-clientes")
