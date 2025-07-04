@@ -56,7 +56,9 @@ CREATE TABLE IF NOT EXISTS mantenimientos(
     ci_tecnico INT NOT NULL,
     tipo VARCHAR(20),
     fecha DATE,
+    hora TIME,
     observarciones VARCHAR(50),
     Foreign Key (id_maquina) REFERENCES maquinas(id_maquina),
-    Foreign Key (ci_tecnico) REFERENCES tecnicos(ci)
+    Foreign Key (ci_tecnico) REFERENCES tecnicos(ci),
+    UNIQUE (ci_tecnico, fecha, hora)
 );

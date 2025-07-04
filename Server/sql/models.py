@@ -6,6 +6,7 @@ TODO: auto-generate script (basade en schema.sql)
 """
 from pydantic import BaseModel
 from typing import Optional
+from datetime import date, time
 
 class Login(BaseModel):
     correo: str
@@ -57,5 +58,6 @@ class Mantenimiento(BaseModel):
     id_maquina: int
     ci_tecnico: int
     tipo: Optional[str] = None
-    fecha: Optional[str] = None  # Puedes usar datetime.date si lo prefieres
+    fecha: Optional[date] = None
+    hora: Optional[time] = None
     observarciones: Optional[str] = None
