@@ -24,13 +24,7 @@ uvicorn main:app --reload
 [Backend (python + fastapi)](#inicializacion-backend)
 
 # Frontend <small>(React + Vite)</small>
-Decidimos react + vite
-
-## Inicializacion Frontend
-
-- npm i to install dependencies
-- npm run dev
-- Go to ´http://localhost:3000´
+No utilizamos por el momento
 
 # Backend <small>(Python + FastAPI)</small>
 Mencion a decisiones, etc, consideraciones ...

@@ -37,13 +37,13 @@ def san(statement: str | bool | int | None):
     Simplifica: checkeo de comillas.., caracteres sql injection / argumentos
     nota: remueve tildes, enie.. (cuando %s no posible)
     """
-    validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
+    validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_ "
     sanitized = ''
 
     if isinstance(statement, (bool, int)) or statement is None:
         return f"{statement}"
 
-    for char in statement.replace(" ", "").replace("\n", "").replace("\t", ""):
+    for char in statement.replace("\n", "").replace("\t", ""):
         if char in validChars:
             sanitized += char
     return sanitized
